@@ -5,6 +5,8 @@ export interface GoldPrice {
   name: string;
   buyPrice: number;
   sellPrice: number;
+  kapaliBuyPrice: number;
+  kapaliSellPrice: number;
   prevBuyPrice: number;
   prevSellPrice: number;
   changePercent: number;
@@ -92,12 +94,16 @@ export function useGoldPrices() {
     const goldPrices: GoldPrice[] = Object.entries(BASE_PRICES).map(([id, base]) => {
       const buy = fluctuate(base.buy, 0.05);
       const sell = fluctuate(base.sell, 0.05);
+      const kapaliBuy = fluctuate(buy * 1.002, 0.03);
+      const kapaliSell = fluctuate(sell * 1.003, 0.03);
       prevPricesRef.current.set(id, { buy, sell });
       return {
         id,
         name: GOLD_NAMES[id],
         buyPrice: buy,
         sellPrice: sell,
+        kapaliBuyPrice: kapaliBuy,
+        kapaliSellPrice: kapaliSell,
         prevBuyPrice: buy,
         prevSellPrice: sell,
         changePercent: 0,
@@ -133,6 +139,8 @@ export function useGoldPrices() {
       prev.map(price => {
         const newBuy = fluctuate(price.buyPrice, 0.08);
         const newSell = fluctuate(price.sellPrice, 0.08);
+        const kapaliBuy = fluctuate(newBuy * 1.002, 0.03);
+        const kapaliSell = fluctuate(newSell * 1.003, 0.03);
         const change = ((newBuy - price.buyPrice) / price.buyPrice) * 100;
         const direction: 'up' | 'down' | 'neutral' =
           change > 0.01 ? 'up' : change < -0.01 ? 'down' : 'neutral';
@@ -143,6 +151,8 @@ export function useGoldPrices() {
           prevSellPrice: price.sellPrice,
           buyPrice: newBuy,
           sellPrice: newSell,
+          kapaliBuyPrice: kapaliBuy,
+          kapaliSellPrice: kapaliSell,
           changePercent: Math.round(change * 100) / 100,
           direction,
           lastUpdate: new Date(),
