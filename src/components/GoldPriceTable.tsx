@@ -11,9 +11,21 @@ interface GoldPriceTableProps {
 export default function GoldPriceTable({ prices, currencies }: GoldPriceTableProps) {
   return (
     <section aria-labelledby="gold-prices-heading">
-      <div className="mb-4 flex items-center justify-between">
+      {/* Currency Rates - Visible at top */}
+      <div className="mb-4">
+        <h3 className="mb-3 text-sm font-semibold text-foreground md:text-base">
+          Canlı Döviz Kurları
+        </h3>
+        <div className="grid grid-cols-2 gap-3">
+          {currencies.map(rate => (
+            <CurrencyCard key={rate.id} rate={rate} />
+          ))}
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between mb-3">
         <h2 id="gold-prices-heading" className="text-lg font-bold text-foreground md:text-xl">
-          Canlı Altın Fiyatları
+          Kapalıçarşı Altın Fiyatları
         </h2>
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
           <span className="relative flex h-2 w-2">
@@ -27,7 +39,7 @@ export default function GoldPriceTable({ prices, currencies }: GoldPriceTablePro
       {/* Gold Prices Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full" role="table" aria-label="Altın fiyatları tablosu">
+          <table className="w-full" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
             <thead>
               <tr className="border-b border-border bg-secondary/50">
                 <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground md:px-4 md:py-3">
@@ -50,16 +62,6 @@ export default function GoldPriceTable({ prices, currencies }: GoldPriceTablePro
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Currency Rates */}
-      <div className="mt-4">
-        <h3 className="mb-3 text-sm font-semibold text-muted-foreground">Döviz Kurları</h3>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {currencies.map(rate => (
-            <CurrencyCard key={rate.id} rate={rate} />
-          ))}
         </div>
       </div>
     </section>
@@ -86,7 +88,7 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
     >
       <td className="px-3 py-3 md:px-4 md:py-3.5">
         <div className="flex items-center gap-2">
-          {isHero && <Star className="h-4 w-4 fill-primary text-primary" aria-hidden="true" />}
+          {isHero && <Star className="h-4 w-4 shrink-0 fill-primary text-primary" aria-hidden="true" />}
           <div>
             <span className={`font-medium ${isHero ? 'text-sm font-bold text-foreground md:text-base' : 'text-sm text-foreground'}`}>
               {price.name}
@@ -96,14 +98,24 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
         </div>
       </td>
       <td className="px-3 py-3 text-right md:px-4">
-        <span className={`font-tabular text-sm font-semibold ${isHero ? 'text-base text-foreground' : 'text-foreground'}`}>
-          {formatPrice(price.buyPrice)}
-        </span>
+        <div>
+          <span className={`font-tabular text-sm font-semibold ${isHero ? 'text-base text-foreground' : 'text-foreground'}`}>
+            {formatPrice(price.buyPrice)}
+          </span>
+          <p className="font-tabular text-[10px] text-muted-foreground">
+            kapalıçarşı: {formatPrice(price.kapaliBuyPrice)}
+          </p>
+        </div>
       </td>
       <td className="px-3 py-3 text-right md:px-4">
-        <span className={`font-tabular text-sm font-semibold ${isHero ? 'text-base text-foreground' : 'text-foreground'}`}>
-          {formatPrice(price.sellPrice)}
-        </span>
+        <div>
+          <span className={`font-tabular text-sm font-semibold ${isHero ? 'text-base text-foreground' : 'text-foreground'}`}>
+            {formatPrice(price.sellPrice)}
+          </span>
+          <p className="font-tabular text-[10px] text-muted-foreground">
+            kapalıçarşı: {formatPrice(price.kapaliSellPrice)}
+          </p>
+        </div>
       </td>
       <td className="hidden px-3 py-3 text-right sm:table-cell md:px-4">
         <DirectionBadge direction={price.direction} changePercent={price.changePercent} />
