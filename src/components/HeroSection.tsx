@@ -22,39 +22,39 @@ export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapa
           Kapalıçarşı Anlık Piyasa
         </p>
         <h1 id="hero-heading" className="mb-4 text-xl font-extrabold text-foreground md:mb-6 md:text-3xl lg:text-4xl">
-          Kapalıçarşı Gram Altın Fiyatları – Canlı Gr Altın
+          Canlı Gr Altın Fiyatları
         </h1>
 
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:gap-6">
           {/* Sell Price */}
-          <div>
-            <p className="mb-1 text-xs text-muted-foreground">Satış Fiyatı</p>
-            <p className="font-tabular text-2xl font-extrabold text-foreground sm:text-3xl md:text-4xl">
+          <div className="min-w-0">
+            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Satış Fiyatı</p>
+            <p className="font-tabular text-lg font-extrabold text-foreground sm:text-2xl md:text-3xl lg:text-4xl">
               {formatPrice(sellPrice)}
             </p>
-            <p className="mt-0.5 text-xs text-muted-foreground">₺ / gram</p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
             <p className="mt-0.5 text-[10px] text-muted-foreground">
               kapalıçarşı: {formatPrice(kapaliSellPrice)} ₺
             </p>
           </div>
 
           {/* Buy Price */}
-          <div>
-            <p className="mb-1 text-xs text-muted-foreground">Alış Fiyatı</p>
-            <p className="font-tabular text-2xl font-extrabold text-foreground sm:text-3xl md:text-4xl">
+          <div className="min-w-0">
+            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Alış Fiyatı</p>
+            <p className="font-tabular text-lg font-extrabold text-foreground sm:text-2xl md:text-3xl lg:text-4xl">
               {formatPrice(buyPrice)}
             </p>
-            <p className="mt-0.5 text-xs text-muted-foreground">₺ / gram</p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
             <p className="mt-0.5 text-[10px] text-muted-foreground">
               kapalıçarşı: {formatPrice(kapaliBuyPrice)} ₺
             </p>
           </div>
 
           {/* Change */}
-          <div>
-            <p className="mb-1 text-xs text-muted-foreground">Değişim</p>
+          <div className="min-w-0">
+            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Değişim</p>
             <span
-              className={`inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-sm font-bold ${
+              className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold sm:px-3 sm:py-1.5 sm:text-sm ${
                 direction === 'up'
                   ? 'bg-up-bg text-up'
                   : direction === 'down'
@@ -67,9 +67,9 @@ export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapa
           </div>
 
           {/* Time */}
-          <div className="flex flex-col justify-start">
-            <p className="mb-1 text-xs text-muted-foreground">Son Güncelleme</p>
-            <p className="font-tabular text-sm font-semibold text-foreground md:text-base">
+          <div className="flex min-w-0 flex-col justify-start">
+            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Son Güncelleme</p>
+            <p className="font-tabular text-xs font-semibold text-foreground sm:text-sm md:text-base">
               {formatTime(lastUpdate)}
             </p>
           </div>

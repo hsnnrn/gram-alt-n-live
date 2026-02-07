@@ -16,7 +16,7 @@ export default function GoldPriceTable({ prices, currencies }: GoldPriceTablePro
         <h3 className="mb-3 text-sm font-semibold text-foreground md:text-base">
           Canlı Döviz Kurları
         </h3>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {currencies.map(rate => (
             <CurrencyCard key={rate.id} rate={rate} />
           ))}
@@ -152,16 +152,16 @@ function DirectionBadge({ direction, changePercent }: { direction: string; chang
 function CurrencyCard({ rate }: { rate: CurrencyRate }) {
   return (
     <div className="flex items-center justify-between rounded-xl border border-border bg-card p-3 shadow-sm md:p-4">
-      <div className="flex items-center gap-2.5">
-        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-secondary text-sm font-bold text-secondary-foreground">
+      <div className="flex min-w-0 items-center gap-2">
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-sm font-bold text-secondary-foreground sm:h-9 sm:w-9">
           {rate.symbol}
         </div>
-        <div>
-          <p className="text-sm font-medium text-foreground">{rate.name}</p>
-          <p className="text-xs text-muted-foreground">{rate.id.toUpperCase()}/TRY</p>
+        <div className="min-w-0">
+          <p className="truncate text-xs font-medium text-foreground sm:text-sm">{rate.name}</p>
+          <p className="text-[10px] text-muted-foreground sm:text-xs">{rate.id.toUpperCase()}/TRY</p>
         </div>
       </div>
-      <div className="text-right">
+      <div className="shrink-0 text-right">
         <p className="font-tabular text-sm font-semibold text-foreground">{formatPrice(rate.sellPrice)}</p>
         <DirectionBadge direction={rate.direction} changePercent={rate.changePercent} />
       </div>
