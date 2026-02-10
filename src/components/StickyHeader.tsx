@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, Minus, Moon, Sun } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, Moon, Sun, RefreshCw } from 'lucide-react';
 import type { GoldPrice } from '@/hooks/useGoldPrices';
 import { formatPrice, formatTime } from '@/hooks/useGoldPrices';
 
@@ -7,9 +7,10 @@ interface StickyHeaderProps {
   lastUpdate: Date;
   isDark: boolean;
   onToggleTheme: () => void;
+  onRefresh?: () => void;
 }
 
-export default function StickyHeader({ gramPrice, lastUpdate, isDark, onToggleTheme }: StickyHeaderProps) {
+export default function StickyHeader({ gramPrice, lastUpdate, isDark, onToggleTheme, onRefresh }: StickyHeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur-md" role="banner">
       <div className="container flex items-center justify-between py-2 md:py-3">
@@ -46,14 +47,26 @@ export default function StickyHeader({ gramPrice, lastUpdate, isDark, onToggleTh
           </div>
         )}
 
-        {/* Theme toggle */}
-        <button
-          onClick={onToggleTheme}
-          className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
-          aria-label={isDark ? 'Açık moda geç' : 'Koyu moda geç'}
-        >
-          {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-        </button>
+        <div className="flex items-center gap-1.5">
+          {/* Refresh button */}
+          {onRefresh && (
+            <button
+              onClick={onRefresh}
+              className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+              aria-label="Verileri yenile"
+            >
+              <RefreshCw className="h-4 w-4" />
+            </button>
+          )}
+          {/* Theme toggle */}
+          <button
+            onClick={onToggleTheme}
+            className="flex h-8 w-8 items-center justify-center rounded-lg border border-border text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+            aria-label={isDark ? 'Açık moda geç' : 'Koyu moda geç'}
+          >
+            {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
     </header>
   );

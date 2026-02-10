@@ -1,18 +1,27 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { useMemo, useRef } from 'react';
+import {
+  fetchKapalicarsiData,
+  parseNumber,
+  GOLD_CODES,
+  CURRENCY_CODES,
+  type ApiItem,
+} from '@/services/goldApi';
 
 export interface GoldPrice {
   id: string;
   name: string;
   buyPrice: number;
   sellPrice: number;
-  kapaliBuyPrice: number;
-  kapaliSellPrice: number;
-  prevBuyPrice: number;
-  prevSellPrice: number;
+  lowPrice: number;
+  highPrice: number;
+  closingPrice: number;
   changePercent: number;
+  changeAmount: number;
   direction: 'up' | 'down' | 'neutral';
   lastUpdate: Date;
   unit: string;
+  rawDate: string;
 }
 
 export interface CurrencyRate {
@@ -21,10 +30,12 @@ export interface CurrencyRate {
   symbol: string;
   buyPrice: number;
   sellPrice: number;
-  prevBuyPrice: number;
-  prevSellPrice: number;
+  lowPrice: number;
+  highPrice: number;
+  closingPrice: number;
   changePercent: number;
   direction: 'up' | 'down' | 'neutral';
+  rawDate: string;
 }
 
 export interface PriceHistory {
@@ -32,41 +43,100 @@ export interface PriceHistory {
   price: number;
 }
 
-const BASE_PRICES: Record<string, { buy: number; sell: number; unit: string }> = {
-  gram: { buy: 3245.50, sell: 3258.80, unit: '₺/gr' },
-  ceyrek: { buy: 5302.00, sell: 5380.00, unit: '₺' },
-  yarim: { buy: 10604.00, sell: 10720.00, unit: '₺' },
-  tam: { buy: 21108.00, sell: 21340.00, unit: '₺' },
-  cumhuriyet: { buy: 22050.00, sell: 22380.00, unit: '₺' },
-  bilezik22: { buy: 3100.00, sell: 3145.00, unit: '₺/gr' },
-  ayar14: { buy: 1920.00, sell: 1965.00, unit: '₺/gr' },
-};
-
-const BASE_CURRENCIES: Record<string, { buy: number; sell: number; symbol: string }> = {
-  usd: { buy: 38.42, sell: 38.55, symbol: '$' },
-  eur: { buy: 40.18, sell: 40.35, symbol: '€' },
-};
-
-const GOLD_NAMES: Record<string, string> = {
-  gram: 'Gram Altın',
-  ceyrek: 'Çeyrek Altın',
-  yarim: 'Yarım Altın',
-  tam: 'Tam Altın',
-  cumhuriyet: 'Cumhuriyet Altını',
-  bilezik22: '22 Ayar Bilezik',
-  ayar14: '14 Ayar Altın',
-};
-
-const CURRENCY_NAMES: Record<string, string> = {
-  usd: 'Amerikan Doları',
-  eur: 'Euro',
-};
-
-function fluctuate(price: number, maxPercent: number = 0.15): number {
-  const change = price * (maxPercent / 100) * (Math.random() * 2 - 1);
-  return Math.round((price + change) * 100) / 100;
+function parseApiDate(tarih: string): Date {
+  // Format: "06-09-2024 01:41:31" -> DD-MM-YYYY HH:MM:SS
+  const parts = tarih.match(/(\d{2})-(\d{2})-(\d{4})\s+(\d{2}):(\d{2}):(\d{2})/);
+  if (parts) {
+    return new Date(
+      parseInt(parts[3]),
+      parseInt(parts[2]) - 1,
+      parseInt(parts[1]),
+      parseInt(parts[4]),
+      parseInt(parts[5]),
+      parseInt(parts[6])
+    );
+  }
+  return new Date();
 }
 
+function getDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
+  const diff = current - closing;
+  const pct = closing > 0 ? (diff / closing) * 100 : 0;
+  if (pct > 0.01) return 'up';
+  if (pct < -0.01) return 'down';
+  return 'neutral';
+}
+
+function processApiData(data: ApiItem[]) {
+  const goldPrices: GoldPrice[] = [];
+  const currencyRates: CurrencyRate[] = [];
+
+  for (const item of data) {
+    const code = item.code?.toUpperCase?.() ?? '';
+    const alis = parseNumber(item.alis);
+    const satis = parseNumber(item.satis);
+    const dusuk = item.dusuk || alis;
+    const yuksek = item.yuksek || satis;
+    const kapanis = item.kapanis || alis;
+    const tarih = item.tarih || '';
+
+    if (alis <= 0 && satis <= 0) continue;
+
+    const changeAmount = satis - kapanis;
+    const changePercent = kapanis > 0 ? ((satis - kapanis) / kapanis) * 100 : 0;
+    const direction = getDirection(satis, kapanis);
+
+    // Check if it's a gold item
+    const goldMeta = GOLD_CODES[code];
+    if (goldMeta) {
+      goldPrices.push({
+        id: code.toLowerCase(),
+        name: goldMeta.name,
+        buyPrice: alis,
+        sellPrice: satis,
+        lowPrice: dusuk,
+        highPrice: yuksek,
+        closingPrice: kapanis,
+        changePercent: Math.round(changePercent * 100) / 100,
+        changeAmount: Math.round(changeAmount * 100) / 100,
+        direction,
+        lastUpdate: parseApiDate(tarih),
+        unit: goldMeta.unit,
+        rawDate: tarih,
+      });
+      continue;
+    }
+
+    // Check if it's a currency
+    const curMeta = CURRENCY_CODES[code];
+    if (curMeta) {
+      currencyRates.push({
+        id: code.toLowerCase(),
+        name: curMeta.name,
+        symbol: curMeta.symbol,
+        buyPrice: alis,
+        sellPrice: satis,
+        lowPrice: dusuk,
+        highPrice: yuksek,
+        closingPrice: kapanis,
+        changePercent: Math.round(changePercent * 100) / 100,
+        direction,
+        rawDate: tarih,
+      });
+    }
+  }
+
+  // Sort gold by defined order
+  goldPrices.sort((a, b) => {
+    const orderA = GOLD_CODES[a.id.toUpperCase()]?.order ?? 99;
+    const orderB = GOLD_CODES[b.id.toUpperCase()]?.order ?? 99;
+    return orderA - orderB;
+  });
+
+  return { goldPrices, currencyRates };
+}
+
+// Generate simulated history (for chart, until we have a history API)
 function generateHistory(basePrice: number, days: number): PriceHistory[] {
   const history: PriceHistory[] = [];
   const now = new Date();
@@ -76,8 +146,8 @@ function generateHistory(basePrice: number, days: number): PriceHistory[] {
     const timestamp = new Date(now);
     timestamp.setDate(timestamp.getDate() - i);
     timestamp.setHours(10, 0, 0, 0);
-
-    price = fluctuate(price, 0.5);
+    const change = price * (0.5 / 100) * (Math.random() * 2 - 1);
+    price = Math.round((price + change) * 100) / 100;
     history.push({ timestamp, price });
   }
 
@@ -85,117 +155,42 @@ function generateHistory(basePrice: number, days: number): PriceHistory[] {
 }
 
 export function useGoldPrices() {
-  const [prices, setPrices] = useState<GoldPrice[]>([]);
-  const [currencies, setCurrencies] = useState<CurrencyRate[]>([]);
-  const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const prevPricesRef = useRef<Map<string, { buy: number; sell: number }>>(new Map());
+  const {
+    data,
+    isLoading,
+    isError,
+    error,
+    refetch,
+    dataUpdatedAt,
+  } = useQuery({
+    queryKey: ['kapalicarsi-prices'],
+    queryFn: fetchKapalicarsiData,
+    refetchInterval: 60_000, // Auto-refresh every 60 seconds
+    staleTime: 30_000,
+    retry: 2,
+    refetchOnWindowFocus: true,
+  });
 
-  const initializePrices = useCallback(() => {
-    const goldPrices: GoldPrice[] = Object.entries(BASE_PRICES).map(([id, base]) => {
-      const buy = fluctuate(base.buy, 0.05);
-      const sell = fluctuate(base.sell, 0.05);
-      const kapaliBuy = fluctuate(buy * 1.002, 0.03);
-      const kapaliSell = fluctuate(sell * 1.003, 0.03);
-      prevPricesRef.current.set(id, { buy, sell });
-      return {
-        id,
-        name: GOLD_NAMES[id],
-        buyPrice: buy,
-        sellPrice: sell,
-        kapaliBuyPrice: kapaliBuy,
-        kapaliSellPrice: kapaliSell,
-        prevBuyPrice: buy,
-        prevSellPrice: sell,
-        changePercent: 0,
-        direction: 'neutral' as const,
-        lastUpdate: new Date(),
-        unit: base.unit,
-      };
-    });
+  const processed = useMemo(() => {
+    if (!data) return { goldPrices: [], currencyRates: [] };
+    return processApiData(data);
+  }, [data]);
 
-    const currencyRates: CurrencyRate[] = Object.entries(BASE_CURRENCIES).map(([id, base]) => {
-      const buy = fluctuate(base.buy, 0.02);
-      const sell = fluctuate(base.sell, 0.02);
-      return {
-        id,
-        name: CURRENCY_NAMES[id],
-        symbol: base.symbol,
-        buyPrice: buy,
-        sellPrice: sell,
-        prevBuyPrice: buy,
-        prevSellPrice: sell,
-        changePercent: 0,
-        direction: 'neutral' as const,
-      };
-    });
+  const gramPrice = processed.goldPrices.find(
+    p => p.id === 'altin'
+  );
 
-    setPrices(goldPrices);
-    setCurrencies(currencyRates);
-    setLastUpdate(new Date());
-  }, []);
-
-  const updatePrices = useCallback(() => {
-    setPrices(prev =>
-      prev.map(price => {
-        const newBuy = fluctuate(price.buyPrice, 0.08);
-        const newSell = fluctuate(price.sellPrice, 0.08);
-        const kapaliBuy = fluctuate(newBuy * 1.002, 0.03);
-        const kapaliSell = fluctuate(newSell * 1.003, 0.03);
-        const change = ((newBuy - price.buyPrice) / price.buyPrice) * 100;
-        const direction: 'up' | 'down' | 'neutral' =
-          change > 0.01 ? 'up' : change < -0.01 ? 'down' : 'neutral';
-
-        return {
-          ...price,
-          prevBuyPrice: price.buyPrice,
-          prevSellPrice: price.sellPrice,
-          buyPrice: newBuy,
-          sellPrice: newSell,
-          kapaliBuyPrice: kapaliBuy,
-          kapaliSellPrice: kapaliSell,
-          changePercent: Math.round(change * 100) / 100,
-          direction,
-          lastUpdate: new Date(),
-        };
-      })
-    );
-
-    setCurrencies(prev =>
-      prev.map(rate => {
-        const newBuy = fluctuate(rate.buyPrice, 0.04);
-        const newSell = fluctuate(rate.sellPrice, 0.04);
-        const change = ((newBuy - rate.buyPrice) / rate.buyPrice) * 100;
-        const direction: 'up' | 'down' | 'neutral' =
-          change > 0.005 ? 'up' : change < -0.005 ? 'down' : 'neutral';
-
-        return {
-          ...rate,
-          prevBuyPrice: rate.buyPrice,
-          prevSellPrice: rate.sellPrice,
-          buyPrice: newBuy,
-          sellPrice: newSell,
-          changePercent: Math.round(change * 100) / 100,
-          direction,
-        };
-      })
-    );
-
-    setLastUpdate(new Date());
-  }, []);
-
-  useEffect(() => {
-    initializePrices();
-    const interval = setInterval(updatePrices, 3000);
-    return () => clearInterval(interval);
-  }, [initializePrices, updatePrices]);
-
-  const gramPrice = prices.find(p => p.id === 'gram');
+  const lastUpdate = dataUpdatedAt ? new Date(dataUpdatedAt) : new Date();
 
   return {
-    prices,
-    currencies,
+    prices: processed.goldPrices,
+    currencies: processed.currencyRates,
     gramPrice,
     lastUpdate,
+    isLoading,
+    isError,
+    error,
+    refetch,
     generateHistory,
   };
 }

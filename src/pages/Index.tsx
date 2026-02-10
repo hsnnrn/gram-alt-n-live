@@ -13,7 +13,7 @@ import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
 
 const Index = () => {
-  const { prices, currencies, gramPrice, lastUpdate, generateHistory } = useGoldPrices();
+  const { prices, currencies, gramPrice, lastUpdate, isLoading, isError, refetch, generateHistory } = useGoldPrices();
   const { isDark, toggle } = useTheme();
 
   return (
@@ -31,26 +31,27 @@ const Index = () => {
           lastUpdate={lastUpdate}
           isDark={isDark}
           onToggleTheme={toggle}
+          onRefresh={() => refetch()}
         />
 
         <main className="container py-4 md:py-6">
           {/* Hero */}
-          {gramPrice && (
-            <HeroSection
-              sellPrice={gramPrice.sellPrice}
-              buyPrice={gramPrice.buyPrice}
-              kapaliSellPrice={gramPrice.kapaliSellPrice}
-              kapaliBuyPrice={gramPrice.kapaliBuyPrice}
-              direction={gramPrice.direction}
-              changePercent={gramPrice.changePercent}
-              lastUpdate={lastUpdate}
-            />
-          )}
+          <HeroSection
+            gramPrice={gramPrice}
+            lastUpdate={lastUpdate}
+            isLoading={isLoading}
+          />
 
           {/* Main Grid: Table + Converters */}
           <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3 md:mt-6 md:gap-6">
             <div className="lg:col-span-2">
-              <GoldPriceTable prices={prices} currencies={currencies} />
+              <GoldPriceTable
+                prices={prices}
+                currencies={currencies}
+                isLoading={isLoading}
+                isError={isError}
+                onRefresh={() => refetch()}
+              />
             </div>
             <div className="space-y-4 md:space-y-6">
               <PriceConverter gramPrice={gramPrice} />
