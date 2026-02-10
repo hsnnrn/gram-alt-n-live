@@ -111,7 +111,7 @@ export default function PriceConverter({ gramPrice }: PriceConverterProps) {
             )}
           </p>
           <p className="mt-1 text-[10px] text-muted-foreground md:text-xs">
-            Satış fiyatı üzerinden: {formatPrice(gramPrice.sellPrice)} ₺/gram
+            Kapalıçarşı satış fiyatı: {formatPrice(gramPrice.sellPrice)} ₺/gram
           </p>
         </div>
       </div>

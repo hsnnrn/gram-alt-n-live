@@ -28,7 +28,7 @@ export default function GoldPredictions({ currentPrice }: GoldPredictionsProps) 
       <div className="mb-4 flex items-center gap-2">
         <TrendingUp className="h-5 w-5 text-primary" aria-hidden="true" />
         <h2 id="predictions-heading" className="text-lg font-bold text-foreground">
-          {year} Yıl Sonu Gram Altın Tahminleri
+          {year} Yıl Sonu Tahminleri
         </h2>
       </div>
 

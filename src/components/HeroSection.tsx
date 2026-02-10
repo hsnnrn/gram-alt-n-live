@@ -1,16 +1,33 @@
 import { formatPrice, formatTime } from '@/hooks/useGoldPrices';
+import type { GoldPrice } from '@/hooks/useGoldPrices';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface HeroSectionProps {
-  sellPrice: number;
-  buyPrice: number;
-  kapaliSellPrice: number;
-  kapaliBuyPrice: number;
-  direction: 'up' | 'down' | 'neutral';
-  changePercent: number;
+  gramPrice?: GoldPrice;
   lastUpdate: Date;
+  isLoading?: boolean;
 }
 
-export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapaliBuyPrice, direction, changePercent, lastUpdate }: HeroSectionProps) {
+export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSectionProps) {
+  if (isLoading || !gramPrice) {
+    return (
+      <section className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8">
+        <Skeleton className="mb-1 h-4 w-40" />
+        <Skeleton className="mb-6 h-8 w-64" />
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-6">
+          {[1, 2, 3, 4].map(i => (
+            <div key={i}>
+              <Skeleton className="mb-2 h-3 w-20" />
+              <Skeleton className="h-10 w-32" />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
+  }
+
+  const { sellPrice, buyPrice, lowPrice, highPrice, direction, changePercent, changeAmount } = gramPrice;
+
   return (
     <section className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8" aria-labelledby="hero-heading">
       {/* Subtle gold accent */}
@@ -33,9 +50,6 @@ export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapa
               {formatPrice(sellPrice)}
             </p>
             <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">
-              kapalıçarşı: {formatPrice(kapaliSellPrice)} ₺
-            </p>
           </div>
 
           {/* Buy Price */}
@@ -45,9 +59,6 @@ export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapa
               {formatPrice(buyPrice)}
             </p>
             <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">
-              kapalıçarşı: {formatPrice(kapaliBuyPrice)} ₺
-            </p>
           </div>
 
           {/* Change */}
@@ -64,6 +75,13 @@ export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapa
             >
               {direction === 'up' ? '▲' : direction === 'down' ? '▼' : '—'} %{Math.abs(changePercent).toFixed(2)}
             </span>
+            {changeAmount !== undefined && changeAmount !== 0 && (
+              <p className={`mt-1 font-tabular text-[10px] font-medium ${
+                direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
+              }`}>
+                {changeAmount > 0 ? '+' : ''}{formatPrice(changeAmount)} ₺
+              </p>
+            )}
           </div>
 
           {/* Time */}
@@ -71,6 +89,9 @@ export default function HeroSection({ sellPrice, buyPrice, kapaliSellPrice, kapa
             <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Son Güncelleme</p>
             <p className="font-tabular text-xs font-semibold text-foreground sm:text-sm md:text-base">
               {formatTime(lastUpdate)}
+            </p>
+            <p className="mt-0.5 text-[10px] text-muted-foreground">
+              Düşük: {formatPrice(lowPrice)} / Yüksek: {formatPrice(highPrice)}
             </p>
           </div>
         </div>
