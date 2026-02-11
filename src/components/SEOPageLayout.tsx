@@ -2,22 +2,26 @@ import { useGoldPrices } from '@/hooks/useGoldPrices';
 import { useTheme } from '@/hooks/useTheme';
 import StickyHeader from '@/components/StickyHeader';
 import Footer from '@/components/Footer';
+import SEOHead from '@/components/SEOHead';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 
 interface SEOPageLayoutProps {
   title: string;
   description: string;
+  keywords?: string;
+  canonical?: string;
   children: React.ReactNode;
   breadcrumb: string;
 }
 
-export default function SEOPageLayout({ title, description, children, breadcrumb }: SEOPageLayoutProps) {
+export default function SEOPageLayout({ title, description, keywords, canonical, children, breadcrumb }: SEOPageLayoutProps) {
   const { prices, currencies, gramPrice, lastUpdate } = useGoldPrices();
   const { isDark, toggle } = useTheme();
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead title={title} description={description} keywords={keywords} canonical={canonical} />
       <StickyHeader
         gramPrice={gramPrice}
         lastUpdate={lastUpdate}
@@ -82,4 +86,8 @@ const INTERNAL_LINKS = [
   { href: '/altin-cesitleri', label: 'Altın Çeşitleri' },
   { href: '/doviz-kurlari', label: 'Döviz Kurları' },
   { href: '/kapalicarsı-altin-fiyatlari', label: 'Kapalıçarşı Altın Fiyatları' },
+  { href: '/harem-altin', label: 'Harem Altın Fiyatları' },
+  { href: '/gram-altin-hesaplama', label: 'Gram Altın Hesaplama' },
+  { href: '/altin-fiyatlari-batman', label: 'Batman Altın Fiyatları' },
+  { href: '/blog', label: 'Altın Blog' },
 ];

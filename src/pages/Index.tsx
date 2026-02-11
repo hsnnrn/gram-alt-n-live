@@ -139,6 +139,10 @@ const SEO_LINKS = [
   { href: '/altin-cesitleri', label: 'Altın Çeşitleri' },
   { href: '/doviz-kurlari', label: 'Döviz Kurları' },
   { href: '/kapalicarsı-altin-fiyatlari', label: 'Kapalıçarşı Altın Fiyatları' },
+  { href: '/harem-altin', label: 'Harem Altın Fiyatları' },
+  { href: '/gram-altin-hesaplama', label: 'Gram Altın Hesaplama' },
+  { href: '/altin-fiyatlari-batman', label: 'Batman Altın Fiyatları' },
+  { href: '/blog', label: 'Altın Blog' },
 ];
 
 export default Index;

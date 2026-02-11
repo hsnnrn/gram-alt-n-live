@@ -16,6 +16,10 @@ const AltinYatirimRehberi = lazy(() => import("./pages/AltinYatirimRehberi"));
 const AltinCesitleri = lazy(() => import("./pages/AltinCesitleri"));
 const DovizKurlari = lazy(() => import("./pages/DovizKurlari"));
 const KapalicarsiFiyatlari = lazy(() => import("./pages/KapalicarsiFiyatlari"));
+const HaremAltin = lazy(() => import("./pages/HaremAltin"));
+const GramAltinHesaplama = lazy(() => import("./pages/GramAltinHesaplama"));
+const AltinFiyatlariBatman = lazy(() => import("./pages/AltinFiyatlariBatman"));
+const Blog = lazy(() => import("./pages/Blog"));
 
 const queryClient = new QueryClient();
 
@@ -43,6 +47,10 @@ const App = () => (
             <Route path="/altin-cesitleri" element={<AltinCesitleri />} />
             <Route path="/doviz-kurlari" element={<DovizKurlari />} />
             <Route path="/kapalicarsı-altin-fiyatlari" element={<KapalicarsiFiyatlari />} />
+            <Route path="/harem-altin" element={<HaremAltin />} />
+            <Route path="/gram-altin-hesaplama" element={<GramAltinHesaplama />} />
+            <Route path="/altin-fiyatlari-batman" element={<AltinFiyatlariBatman />} />
+            <Route path="/blog" element={<Blog />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
