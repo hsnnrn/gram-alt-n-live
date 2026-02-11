@@ -79,16 +79,24 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
       {/* Gold Prices Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
+          <table className="w-full table-fixed" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
+            <colgroup>
+              <col className="w-[32%] sm:w-[22%]" />
+              <col className="w-[22%] sm:w-[18%]" />
+              <col className="w-[22%] sm:w-[18%]" />
+              <col className="hidden sm:table-column sm:w-[14%]" />
+              <col className="hidden sm:table-column sm:w-[14%]" />
+              <col className="w-[24%] sm:w-[14%]" />
+            </colgroup>
             <thead>
               <tr className="border-b border-border bg-secondary/50">
-                <th className="px-3 py-2.5 text-left text-xs font-semibold uppercase tracking-wider text-muted-foreground md:px-4 md:py-3">
+                <th className="px-2 py-2 text-left text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
                   Altın Türü
                 </th>
-                <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground md:px-4 md:py-3">
+                <th className="px-1.5 py-2 text-right text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
                   Alış
                 </th>
-                <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground md:px-4 md:py-3">
+                <th className="px-1.5 py-2 text-right text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
                   Satış
                 </th>
                 <th className="hidden px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
@@ -97,7 +105,7 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
                 <th className="hidden px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
                   En Yüksek
                 </th>
-                <th className="px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground md:px-4 md:py-3">
+                <th className="px-1.5 py-2 text-right text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
                   Değişim
                 </th>
               </tr>
@@ -125,23 +133,23 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       }`}
       role="row"
     >
-      <td className="px-3 py-3 md:px-4 md:py-3.5">
-        <div className="flex items-center gap-2">
-          {isHero && <Star className="h-4 w-4 shrink-0 fill-primary text-primary" aria-hidden="true" />}
-          <div>
-            <span className={`font-medium ${isHero ? 'text-sm font-bold text-foreground md:text-base' : 'text-sm text-foreground'}`}>
+      <td className="px-2 py-2.5 sm:px-3 sm:py-3 md:px-4 md:py-3.5">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {isHero && <Star className="h-3.5 w-3.5 shrink-0 fill-primary text-primary sm:h-4 sm:w-4" aria-hidden="true" />}
+          <div className="min-w-0">
+            <span className={`block truncate font-medium ${isHero ? 'text-xs font-bold text-foreground sm:text-sm md:text-base' : 'text-xs text-foreground sm:text-sm'}`}>
               {price.name}
             </span>
-            <span className="ml-1.5 text-[10px] text-muted-foreground">{price.unit}</span>
+            <span className="text-[9px] text-muted-foreground sm:text-[10px]">{price.unit}</span>
           </div>
         </div>
       </td>
 
       {/* Alış with indicator */}
-      <td className="px-3 py-3 text-right md:px-4">
-        <div className="flex items-center justify-end gap-1">
+      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
+        <div className="flex items-center justify-end gap-0.5 sm:gap-1">
           <MiniIndicator direction={buyDir} />
-          <span className={`font-tabular text-sm font-semibold ${isHero ? 'text-base' : ''} ${
+          <span className={`font-tabular text-[11px] font-semibold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
             buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
           }`}>
             {formatPrice(price.buyPrice)}
@@ -150,10 +158,10 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       </td>
 
       {/* Satış with indicator */}
-      <td className="px-3 py-3 text-right md:px-4">
-        <div className="flex items-center justify-end gap-1">
+      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
+        <div className="flex items-center justify-end gap-0.5 sm:gap-1">
           <MiniIndicator direction={sellDir} />
-          <span className={`font-tabular text-sm font-semibold ${isHero ? 'text-base' : ''} ${
+          <span className={`font-tabular text-[11px] font-semibold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
             sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
           }`}>
             {formatPrice(price.sellPrice)}
@@ -176,7 +184,7 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       </td>
 
       {/* Değişim */}
-      <td className="px-3 py-3 text-right md:px-4">
+      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
         <DirectionBadge direction={price.direction} changePercent={price.changePercent} changeAmount={price.changeAmount} />
       </td>
     </tr>
@@ -184,9 +192,9 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 }
 
 function MiniIndicator({ direction }: { direction: 'up' | 'down' | 'neutral' }) {
-  if (direction === 'up') return <TrendingUp className="h-3 w-3 text-up" />;
-  if (direction === 'down') return <TrendingDown className="h-3 w-3 text-down" />;
-  return <Minus className="h-3 w-3 text-muted-foreground" />;
+  if (direction === 'up') return <TrendingUp className="h-2.5 w-2.5 text-up sm:h-3 sm:w-3" />;
+  if (direction === 'down') return <TrendingDown className="h-2.5 w-2.5 text-down sm:h-3 sm:w-3" />;
+  return <Minus className="h-2.5 w-2.5 text-muted-foreground sm:h-3 sm:w-3" />;
 }
 
 function getDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
@@ -201,12 +209,12 @@ function DirectionBadge({ direction, changePercent, changeAmount }: { direction:
   if (direction === 'up') {
     return (
       <div className="text-right">
-        <span className="inline-flex items-center gap-1 rounded-full bg-up-bg px-2 py-0.5 text-xs font-semibold text-up">
-          <TrendingUp className="h-3 w-3" />
+        <span className="inline-flex items-center gap-0.5 rounded-full bg-up-bg px-1.5 py-0.5 text-[10px] font-semibold text-up sm:gap-1 sm:px-2 sm:text-xs">
+          <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
           %{Math.abs(changePercent).toFixed(2)}
         </span>
         {changeAmount !== undefined && (
-          <p className="mt-0.5 font-tabular text-[10px] font-medium text-up">+{formatPrice(Math.abs(changeAmount))} ₺</p>
+          <p className="mt-0.5 hidden font-tabular text-[10px] font-medium text-up sm:block">+{formatPrice(Math.abs(changeAmount))} ₺</p>
         )}
       </div>
     );
@@ -214,19 +222,19 @@ function DirectionBadge({ direction, changePercent, changeAmount }: { direction:
   if (direction === 'down') {
     return (
       <div className="text-right">
-        <span className="inline-flex items-center gap-1 rounded-full bg-down-bg px-2 py-0.5 text-xs font-semibold text-down">
-          <TrendingDown className="h-3 w-3" />
+        <span className="inline-flex items-center gap-0.5 rounded-full bg-down-bg px-1.5 py-0.5 text-[10px] font-semibold text-down sm:gap-1 sm:px-2 sm:text-xs">
+          <TrendingDown className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
           %{Math.abs(changePercent).toFixed(2)}
         </span>
         {changeAmount !== undefined && (
-          <p className="mt-0.5 font-tabular text-[10px] font-medium text-down">-{formatPrice(Math.abs(changeAmount))} ₺</p>
+          <p className="mt-0.5 hidden font-tabular text-[10px] font-medium text-down sm:block">-{formatPrice(Math.abs(changeAmount))} ₺</p>
         )}
       </div>
     );
   }
   return (
-    <span className="inline-flex items-center gap-1 rounded-full bg-secondary px-2 py-0.5 text-xs font-semibold text-muted-foreground">
-      <Minus className="h-3 w-3" />
+    <span className="inline-flex items-center gap-0.5 rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground sm:gap-1 sm:px-2 sm:text-xs">
+      <Minus className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
       %0.00
     </span>
   );
