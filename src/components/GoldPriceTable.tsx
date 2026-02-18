@@ -18,7 +18,9 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
     return (
       <div className="rounded-xl border border-destructive/30 bg-destructive/5 p-6 text-center">
         <p className="text-sm font-medium text-destructive">Veriler yüklenemedi</p>
-        <p className="mt-1 text-xs text-muted-foreground">API'ye erişilemiyor. Lütfen tekrar deneyin.</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Sunucu yanıt vermiyor veya ağ bağlantısı kurulamıyor. Birkaç dakika sonra yenile butonuna tıklayın.
+        </p>
         {onRefresh && (
           <button
             onClick={() => onRefresh()}

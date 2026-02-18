@@ -17,9 +17,9 @@ export default function GramAltinHesaplama() {
         <div>
           <h2 className="mb-3 text-xl font-bold">Altın Hesaplama Aracı</h2>
           <p className="mb-4 leading-relaxed text-muted-foreground">
-            Aşağıdaki altın çevirici aracını kullanarak gram cinsinden altın miktarını TL'ye, veya
-            TL tutarını gram altına kolayca çevirebilirsiniz. Hesaplama Kapalıçarşı canlı satış
-            fiyatı üzerinden yapılmaktadır.
+            Aşağıdaki altın çevirici aracını kullanarak gram cinsinden altın miktarını TL&apos;ye, veya TL
+            tutarını gram altına kolayca çevirebilirsiniz. Hesaplama Kapalıçarşı canlı satış fiyatı üzerinden
+            yapılmaktadır.
           </p>
           <PriceConverter gramPrice={gramPrice} />
         </div>
@@ -27,9 +27,9 @@ export default function GramAltinHesaplama() {
         <div>
           <h2 className="mb-3 text-xl font-bold">Gram Altın Nasıl Hesaplanır?</h2>
           <p className="leading-relaxed text-muted-foreground">
-            Gram altın fiyatı hesaplaması basit bir formüle dayanır. Uluslararası piyasalarda ons
-            altın fiyatı (XAU/USD) dolar bazında belirlenir. Bu fiyat, dolar/TL kuru ile çarpılıp
-            31,1035'e (1 troy ons = 31,1035 gram) bölünerek TL cinsinden gram altın fiyatı elde edilir.
+            Gram altın fiyatı hesaplaması basit bir formüle dayanır. Uluslararası piyasalarda ons altın fiyatı
+            (XAU/USD) dolar bazında belirlenir. Bu fiyat, dolar/TL kuru ile çarpılıp 31,1035&apos;e (1 troy ons =
+            31,1035 gram) bölünerek TL cinsinden gram altın fiyatı elde edilir.
           </p>
           <div className="mt-3 rounded-lg bg-secondary/50 p-4">
             <p className="text-sm font-semibold text-foreground">Formül:</p>
@@ -79,17 +79,17 @@ export default function GramAltinHesaplama() {
           <h2 className="mb-3 text-xl font-bold">Sıkça Sorulan Sorular</h2>
           <div className="space-y-4">
             <div>
-              <h3 className="mb-1 font-semibold text-foreground">10.000 TL'ye kaç gram altın alınır?</h3>
+              <h3 className="mb-1 font-semibold text-foreground">10.000 TL&apos;ye kaç gram altın alınır?</h3>
               <p className="text-sm text-muted-foreground">
-                10.000 TL'ye alınabilecek gram altın miktarı, güncel Kapalıçarşı satış fiyatına göre
-                değişir. Yukarıdaki hesaplama aracını kullanarak anlık sonucu görebilirsiniz.
+                10.000 TL&apos;ye alınabilecek gram altın miktarı, güncel Kapalıçarşı satış fiyatına göre değişir.
+                Yukarıdaki hesaplama aracını kullanarak anlık sonucu görebilirsiniz.
               </p>
             </div>
             <div>
               <h3 className="mb-1 font-semibold text-foreground">Altın alırken alış mı satış fiyatı mı geçerli?</h3>
               <p className="text-sm text-muted-foreground">
-                Altın satın alırken kuyumcunun "satış" fiyatını ödersiniz. Altın satarken ise
-                kuyumcunun "alış" fiyatı geçerlidir. Aradaki fark (spread) kuyumcunun marjıdır.
+                Altın satın alırken kuyumcunun &quot;satış&quot; fiyatını ödersiniz. Altın satarken ise kuyumcunun
+                &quot;alış&quot; fiyatı geçerlidir. Aradaki fark (spread) kuyumcunun marjıdır.
               </p>
             </div>
           </div>

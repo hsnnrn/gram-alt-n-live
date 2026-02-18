@@ -1,5 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
-import { useMemo, useRef } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMemo, useEffect } from 'react';
 import {
   fetchKapalicarsiData,
   parseNumber,
@@ -7,6 +7,7 @@ import {
   CURRENCY_CODES,
   type ApiItem,
 } from '@/services/goldApi';
+import { connectGoldSocket } from '@/services/goldSocket';
 
 export interface GoldPrice {
   id: string;
@@ -155,6 +156,7 @@ function generateHistory(basePrice: number, days: number): PriceHistory[] {
 }
 
 export function useGoldPrices() {
+  const queryClient = useQueryClient();
   const {
     data,
     isLoading,
@@ -165,11 +167,17 @@ export function useGoldPrices() {
   } = useQuery({
     queryKey: ['kapalicarsi-prices'],
     queryFn: fetchKapalicarsiData,
-    refetchInterval: 60_000, // Auto-refresh every 60 seconds
-    staleTime: 30_000,
+    refetchInterval: 60_000, // Yedek: socket yoksa 1 dk da bir
+    staleTime: 0, // Socket her güncellemede cache güncelliyor, stale sayma
     retry: 2,
     refetchOnWindowFocus: true,
   });
+
+  // anlikaltinfiyatlari.com ile aynı: WebSocket ile sürekli anlık güncelleme
+  useEffect(() => {
+    const cleanup = connectGoldSocket(queryClient);
+    return cleanup;
+  }, [queryClient]);
 
   const processed = useMemo(() => {
     if (!data) return { goldPrices: [], currencyRates: [] };

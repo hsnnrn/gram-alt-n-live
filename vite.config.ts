@@ -11,6 +11,14 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    proxy: {
+      // Geliştirmede CORS olmadan anlikaltinfiyatlari.com API kullanımı
+      "/api/anlik": {
+        target: "https://anlikaltinfiyatlari.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/anlik/, ""),
+      },
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

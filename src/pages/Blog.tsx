@@ -6,13 +6,15 @@ const BLOG_POSTS = [
   {
     slug: 'altin-yatirim-rehberi',
     title: 'Altın Yatırımı Nasıl Yapılır? – 2026 Rehberi',
-    summary: 'Altın yatırımının tüm yönleri: fiziki altın, altın hesabı, altın ETF ve altın fonları hakkında kapsamlı rehber.',
+    summary:
+      "Altın yatırımının tüm yönleri: fiziki altın, altın hesabı, altın ETF ve altın fonları hakkında kapsamlı rehber.",
     href: '/altin-yatirim-rehberi',
   },
   {
     slug: 'gram-altin-vs-ceyrek',
     title: 'Gram Altın mı Çeyrek Altın mı? Hangisi Daha Avantajlı?',
-    summary: 'Yatırım açısından gram altın ve çeyrek altın karşılaştırması. Hangi altın türü daha düşük maliyetli?',
+    summary:
+      'Yatırım açısından gram altın ve çeyrek altın karşılaştırması. Hangi altın türü daha düşük maliyetli?',
     href: '/gram-altin-nedir',
   },
   {
@@ -24,7 +26,8 @@ const BLOG_POSTS = [
   {
     slug: 'altin-alis-rehberi',
     title: 'Altın Nasıl Alınır? – Adım Adım Kılavuz',
-    summary: 'İlk defa altın alacaklar için banka, kuyumcu ve online platformlardan altın alma rehberi.',
+    summary:
+      'İlk defa altın alacaklar için banka, kuyumcu ve online platformlardan altın alma rehberi.',
     href: '/altin-nasil-alinir',
   },
   {
@@ -52,10 +55,10 @@ export default function Blog() {
     >
       <section className="space-y-6">
         <div>
-          <h2 className="mb-4 text-xl font-bold">Altın Rehberi & Blog Yazıları</h2>
+          <h2 className="mb-4 text-xl font-bold">Altın Rehberi &amp; Blog Yazıları</h2>
           <p className="mb-6 leading-relaxed text-muted-foreground">
-            Altın yatırımı, Kapalıçarşı piyasası ve döviz kurları hakkında kapsamlı rehberler ve
-            güncel analizler. Yatırım kararlarınızda size yol gösterecek içerikler.
+            Altın yatırımı, Kapalıçarşı piyasası ve döviz kurları hakkında kapsamlı rehberler ve güncel analizler.
+            Yatırım kararlarınızda size yol gösterecek içerikler.
           </p>
         </div>
 
@@ -66,12 +69,10 @@ export default function Blog() {
               to={post.href}
               className="group rounded-xl border border-border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-md"
             >
-              <h3 className="mb-2 text-base font-bold text-foreground group-hover:text-primary transition-colors">
+              <h3 className="mb-2 text-base font-bold text-foreground transition-colors group-hover:text-primary">
                 {post.title}
               </h3>
-              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">
-                {post.summary}
-              </p>
+              <p className="mb-3 text-sm leading-relaxed text-muted-foreground">{post.summary}</p>
               <span className="inline-flex items-center gap-1 text-xs font-semibold text-primary">
                 Devamını Oku <ChevronRight className="h-3 w-3" />
               </span>

@@ -34,15 +34,24 @@ export default function AltinFiyatlariBatman() {
           <ul className="space-y-2 text-muted-foreground">
             <li className="flex items-start gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              <span><strong className="text-foreground">Kuyumcular:</strong> Batman merkez ve ilçelerindeki lisanslı kuyumculardan fiziki altın alabilirsiniz.</span>
+              <span>
+                <strong className="text-foreground">Kuyumcular:</strong> Batman merkez ve ilçelerindeki lisanslı kuyumculardan fiziki altın
+                alabilirsiniz.
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              <span><strong className="text-foreground">Bankalar:</strong> Batman'daki banka şubelerinden altın hesabı açarak gram altın alım-satım yapabilirsiniz.</span>
+              <span>
+                <strong className="text-foreground">Bankalar:</strong> Batman'daki banka şubelerinden altın hesabı açarak gram altın alım-satım
+                yapabilirsiniz.
+              </span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
-              <span><strong className="text-foreground">Online Platformlar:</strong> İnternet bankacılığı veya altın alım-satım platformlarını kullanabilirsiniz.</span>
+              <span>
+                <strong className="text-foreground">Online Platformlar:</strong> İnternet bankacılığı veya altın alım-satım platformlarını
+                kullanabilirsiniz.
+              </span>
             </li>
           </ul>
         </div>
