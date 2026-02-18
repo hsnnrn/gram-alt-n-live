@@ -28,6 +28,9 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
 
   const { sellPrice, buyPrice, lowPrice, highPrice, direction, changePercent, changeAmount } = gramPrice;
 
+  const sellDir = getHeroDirection(sellPrice, gramPrice.closingPrice);
+  const buyDir = getHeroDirection(buyPrice, gramPrice.closingPrice);
+
   return (
     <section className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8" aria-labelledby="hero-heading">
       {/* Subtle gold accent */}
@@ -46,18 +49,32 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
           {/* Sell Price */}
           <div className="min-w-0">
             <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Satış Fiyatı</p>
-            <p className="font-tabular text-lg font-extrabold text-foreground sm:text-2xl md:text-3xl lg:text-4xl">
-              {formatPrice(sellPrice)}
-            </p>
+            <div className="flex items-center gap-1.5">
+              <span className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full sm:h-3 sm:w-3 ${
+                sellDir === 'up' ? 'bg-up shadow-[0_0_6px_hsl(var(--up))]' : sellDir === 'down' ? 'bg-down shadow-[0_0_6px_hsl(var(--down))]' : 'bg-muted-foreground'
+              }`} />
+              <p className={`font-tabular text-lg font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
+                sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
+              }`}>
+                {formatPrice(sellPrice)}
+              </p>
+            </div>
             <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
           </div>
 
           {/* Buy Price */}
           <div className="min-w-0">
             <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Alış Fiyatı</p>
-            <p className="font-tabular text-lg font-extrabold text-foreground sm:text-2xl md:text-3xl lg:text-4xl">
-              {formatPrice(buyPrice)}
-            </p>
+            <div className="flex items-center gap-1.5">
+              <span className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full sm:h-3 sm:w-3 ${
+                buyDir === 'up' ? 'bg-up shadow-[0_0_6px_hsl(var(--up))]' : buyDir === 'down' ? 'bg-down shadow-[0_0_6px_hsl(var(--down))]' : 'bg-muted-foreground'
+              }`} />
+              <p className={`font-tabular text-lg font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
+                buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
+              }`}>
+                {formatPrice(buyPrice)}
+              </p>
+            </div>
             <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
           </div>
 
@@ -98,4 +115,12 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
       </div>
     </section>
   );
+}
+
+function getHeroDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
+  if (closing <= 0) return 'neutral';
+  const pct = ((current - closing) / closing) * 100;
+  if (pct > 0.01) return 'up';
+  if (pct < -0.01) return 'down';
+  return 'neutral';
 }

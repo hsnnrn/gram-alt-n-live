@@ -83,9 +83,9 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
         <div className="overflow-x-auto">
           <table className="w-full table-fixed" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
             <colgroup>
-              <col className="w-[32%] sm:w-[22%]" />
-              <col className="w-[22%] sm:w-[18%]" />
-              <col className="w-[22%] sm:w-[18%]" />
+              <col className="w-[28%] sm:w-[22%]" />
+              <col className="w-[24%] sm:w-[18%]" />
+              <col className="w-[24%] sm:w-[18%]" />
               <col className="hidden sm:table-column sm:w-[14%]" />
               <col className="hidden sm:table-column sm:w-[14%]" />
               <col className="w-[24%] sm:w-[14%]" />
@@ -139,20 +139,20 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
         <div className="flex items-center gap-1.5 sm:gap-2">
           {isHero && <Star className="h-3.5 w-3.5 shrink-0 fill-primary text-primary sm:h-4 sm:w-4" aria-hidden="true" />}
           <div className="min-w-0">
-            <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[13px] text-foreground sm:text-sm'}`}>
+          <span className={`block truncate font-medium ${isHero ? 'text-[12px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[11px] text-foreground sm:text-sm'}`}>
               {price.name}
             </span>
-            <span className="text-[10px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
+            <span className="text-[9px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
           </div>
         </div>
       </td>
 
       {/* Alış with inline dot indicator */}
-      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
-        <span className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
-          buyDir === 'up' ? 'text-up bg-up/10' : buyDir === 'down' ? 'text-down bg-down/10' : 'text-foreground'
+      <td className="px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
+        <span className={`inline-flex items-center gap-0.5 font-tabular text-[12px] font-bold sm:gap-1 sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+          buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
-          <span className={`inline-block h-1.5 w-1.5 rounded-full sm:h-2 sm:w-2 ${
+          <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
             buyDir === 'up' ? 'bg-up' : buyDir === 'down' ? 'bg-down' : 'bg-muted-foreground'
           }`} />
           {formatPrice(price.buyPrice)}
@@ -160,11 +160,11 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       </td>
 
       {/* Satış with inline dot indicator */}
-      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
-        <span className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
-          sellDir === 'up' ? 'text-up bg-up/10' : sellDir === 'down' ? 'text-down bg-down/10' : 'text-foreground'
+      <td className="px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
+        <span className={`inline-flex items-center gap-0.5 font-tabular text-[12px] font-bold sm:gap-1 sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+          sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
-          <span className={`inline-block h-1.5 w-1.5 rounded-full sm:h-2 sm:w-2 ${
+          <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
             sellDir === 'up' ? 'bg-up' : sellDir === 'down' ? 'bg-down' : 'bg-muted-foreground'
           }`} />
           {formatPrice(price.sellPrice)}
