@@ -139,36 +139,36 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
         <div className="flex items-center gap-1.5 sm:gap-2">
           {isHero && <Star className="h-3.5 w-3.5 shrink-0 fill-primary text-primary sm:h-4 sm:w-4" aria-hidden="true" />}
           <div className="min-w-0">
-            <span className={`block truncate font-medium ${isHero ? 'text-xs font-bold text-foreground sm:text-sm md:text-base' : 'text-xs text-foreground sm:text-sm'}`}>
+            <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[13px] text-foreground sm:text-sm'}`}>
               {price.name}
             </span>
-            <span className="text-[9px] text-muted-foreground sm:text-[10px]">{price.unit}</span>
+            <span className="text-[10px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
           </div>
         </div>
       </td>
 
-      {/* Alış with indicator */}
+      {/* Alış with inline dot indicator */}
       <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
-        <div className="flex items-center justify-end gap-0.5 sm:gap-1">
-          <MiniIndicator direction={buyDir} />
-          <span className={`font-tabular text-[11px] font-semibold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
-            buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
-          }`}>
-            {formatPrice(price.buyPrice)}
-          </span>
-        </div>
+        <span className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+          buyDir === 'up' ? 'text-up bg-up/10' : buyDir === 'down' ? 'text-down bg-down/10' : 'text-foreground'
+        }`}>
+          <span className={`inline-block h-1.5 w-1.5 rounded-full sm:h-2 sm:w-2 ${
+            buyDir === 'up' ? 'bg-up' : buyDir === 'down' ? 'bg-down' : 'bg-muted-foreground'
+          }`} />
+          {formatPrice(price.buyPrice)}
+        </span>
       </td>
 
-      {/* Satış with indicator */}
+      {/* Satış with inline dot indicator */}
       <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
-        <div className="flex items-center justify-end gap-0.5 sm:gap-1">
-          <MiniIndicator direction={sellDir} />
-          <span className={`font-tabular text-[11px] font-semibold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
-            sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
-          }`}>
-            {formatPrice(price.sellPrice)}
-          </span>
-        </div>
+        <span className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+          sellDir === 'up' ? 'text-up bg-up/10' : sellDir === 'down' ? 'text-down bg-down/10' : 'text-foreground'
+        }`}>
+          <span className={`inline-block h-1.5 w-1.5 rounded-full sm:h-2 sm:w-2 ${
+            sellDir === 'up' ? 'bg-up' : sellDir === 'down' ? 'bg-down' : 'bg-muted-foreground'
+          }`} />
+          {formatPrice(price.sellPrice)}
+        </span>
       </td>
 
       {/* En Düşük */}
