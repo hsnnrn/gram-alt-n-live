@@ -48,39 +48,47 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
         <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:gap-6">
           {/* Sell Price */}
           <div className="min-w-0">
-            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Satış Fiyatı</p>
-            <div className="flex items-center gap-1.5">
-              <span className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full sm:h-3 sm:w-3 ${
-                sellDir === 'up' ? 'bg-up shadow-[0_0_6px_hsl(var(--up))]' : sellDir === 'down' ? 'bg-down shadow-[0_0_6px_hsl(var(--down))]' : 'bg-muted-foreground'
-              }`} />
-              <p className={`font-tabular text-lg font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
+            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Satış Fiyatı</p>
+            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${
+              sellDir === 'up' ? 'bg-up-bg' : sellDir === 'down' ? 'bg-down-bg' : ''
+            }`}>
+              <span className={`text-sm sm:text-base ${
+                sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-muted-foreground'
+              }`} aria-hidden="true">
+                {sellDir === 'up' ? '▲' : sellDir === 'down' ? '▼' : '■'}
+              </span>
+              <p className={`font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
                 sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
               }`}>
                 {formatPrice(sellPrice)}
               </p>
             </div>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">₺ / gram</p>
           </div>
 
           {/* Buy Price */}
           <div className="min-w-0">
-            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Alış Fiyatı</p>
-            <div className="flex items-center gap-1.5">
-              <span className={`inline-block h-2.5 w-2.5 shrink-0 rounded-full sm:h-3 sm:w-3 ${
-                buyDir === 'up' ? 'bg-up shadow-[0_0_6px_hsl(var(--up))]' : buyDir === 'down' ? 'bg-down shadow-[0_0_6px_hsl(var(--down))]' : 'bg-muted-foreground'
-              }`} />
-              <p className={`font-tabular text-lg font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
+            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Alış Fiyatı</p>
+            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${
+              buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
+            }`}>
+              <span className={`text-sm sm:text-base ${
+                buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-muted-foreground'
+              }`} aria-hidden="true">
+                {buyDir === 'up' ? '▲' : buyDir === 'down' ? '▼' : '■'}
+              </span>
+              <p className={`font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
                 buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
               }`}>
                 {formatPrice(buyPrice)}
               </p>
             </div>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">₺ / gram</p>
+            <p className="mt-0.5 text-[11px] text-muted-foreground">₺ / gram</p>
           </div>
 
           {/* Change */}
           <div className="min-w-0">
-            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Değişim</p>
+            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Değişim</p>
             <span
               className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold sm:px-3 sm:py-1.5 sm:text-sm ${
                 direction === 'up'
@@ -103,11 +111,11 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
 
           {/* Time */}
           <div className="flex min-w-0 flex-col justify-start">
-            <p className="mb-1 text-[10px] text-muted-foreground sm:text-xs">Son Güncelleme</p>
-            <p className="font-tabular text-xs font-semibold text-foreground sm:text-sm md:text-base">
+            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Son Güncelleme</p>
+            <p className="font-tabular text-sm font-semibold text-foreground sm:text-sm md:text-base">
               {formatTime(lastUpdate)}
             </p>
-            <p className="mt-0.5 text-[10px] text-muted-foreground">
+            <p className="mt-0.5 text-[11px] text-muted-foreground">
               Düşük: {formatPrice(lowPrice)} / Yüksek: {formatPrice(highPrice)}
             </p>
           </div>
