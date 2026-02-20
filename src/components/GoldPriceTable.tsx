@@ -1,4 +1,4 @@
-import { TrendingUp, TrendingDown, Minus, Star, RefreshCw } from 'lucide-react';
+import { TrendingUp, TrendingDown, Minus, RefreshCw } from 'lucide-react';
 import type { GoldPrice, CurrencyRate } from '@/hooks/useGoldPrices';
 import { formatPrice } from '@/hooks/useGoldPrices';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -135,38 +135,41 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       }`}
       role="row"
     >
+      {/* Altın Türü - with arrow indicator like reference site */}
       <td className="px-2 py-2.5 sm:px-3 sm:py-3 md:px-4 md:py-3.5">
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {isHero && <Star className="h-3.5 w-3.5 shrink-0 fill-primary text-primary sm:h-4 sm:w-4" aria-hidden="true" />}
+        <div className="flex items-center gap-1 sm:gap-2">
+          <span className={`text-xs sm:text-sm ${
+            price.direction === 'up' ? 'text-up' : price.direction === 'down' ? 'text-down' : 'text-muted-foreground'
+          }`} aria-hidden="true">
+            {price.direction === 'up' ? '▲' : price.direction === 'down' ? '▼' : '■'}
+          </span>
           <div className="min-w-0">
-          <span className={`block truncate font-medium ${isHero ? 'text-[12px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[11px] text-foreground sm:text-sm'}`}>
+            <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[13px] text-foreground sm:text-sm'}`}>
               {price.name}
             </span>
-            <span className="text-[9px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
+            <span className="text-[10px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
           </div>
         </div>
       </td>
 
-      {/* Alış with inline dot indicator */}
-      <td className="px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
-        <span className={`inline-flex items-center gap-0.5 font-tabular text-[12px] font-bold sm:gap-1 sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+      {/* Alış - colored background cell like reference site */}
+      <td className={`px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4 ${
+        buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
+      }`}>
+        <span className={`font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
           buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
-          <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
-            buyDir === 'up' ? 'bg-up' : buyDir === 'down' ? 'bg-down' : 'bg-muted-foreground'
-          }`} />
           {formatPrice(price.buyPrice)}
         </span>
       </td>
 
-      {/* Satış with inline dot indicator */}
-      <td className="px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
-        <span className={`inline-flex items-center gap-0.5 font-tabular text-[12px] font-bold sm:gap-1 sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+      {/* Satış - colored background cell like reference site */}
+      <td className={`px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4 ${
+        sellDir === 'up' ? 'bg-up-bg' : sellDir === 'down' ? 'bg-down-bg' : ''
+      }`}>
+        <span className={`font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
           sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
-          <span className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
-            sellDir === 'up' ? 'bg-up' : sellDir === 'down' ? 'bg-down' : 'bg-muted-foreground'
-          }`} />
           {formatPrice(price.sellPrice)}
         </span>
       </td>
@@ -194,9 +197,13 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 }
 
 function MiniIndicator({ direction }: { direction: 'up' | 'down' | 'neutral' }) {
-  if (direction === 'up') return <TrendingUp className="h-2.5 w-2.5 text-up sm:h-3 sm:w-3" />;
-  if (direction === 'down') return <TrendingDown className="h-2.5 w-2.5 text-down sm:h-3 sm:w-3" />;
-  return <Minus className="h-2.5 w-2.5 text-muted-foreground sm:h-3 sm:w-3" />;
+  return (
+    <span className={`text-xs ${
+      direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
+    }`}>
+      {direction === 'up' ? '▲' : direction === 'down' ? '▼' : '■'}
+    </span>
+  );
 }
 
 function getDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
