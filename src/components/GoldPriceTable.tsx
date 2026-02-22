@@ -135,13 +135,13 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       }`}
       role="row"
     >
-      {/* Altın Türü */}
+      {/* Altın Türü - with arrow indicator like reference site */}
       <td className="px-2 py-2.5 sm:px-3 sm:py-3 md:px-4 md:py-3.5">
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          <span className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full sm:h-6 sm:w-6 ${
-            price.direction === 'up' ? 'bg-up/10 text-up' : price.direction === 'down' ? 'bg-down/10 text-down' : 'bg-secondary text-muted-foreground'
+        <div className="flex items-center gap-1 sm:gap-2">
+          <span className={`text-xs sm:text-sm ${
+            price.direction === 'up' ? 'text-up' : price.direction === 'down' ? 'text-down' : 'text-muted-foreground'
           }`} aria-hidden="true">
-            {price.direction === 'up' ? <TrendingUp className="h-3 w-3" /> : price.direction === 'down' ? <TrendingDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+            {price.direction === 'up' ? '▲' : price.direction === 'down' ? '▼' : '■'}
           </span>
           <div className="min-w-0">
             <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[13px] text-foreground sm:text-sm'}`}>
@@ -198,10 +198,10 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 
 function MiniIndicator({ direction }: { direction: 'up' | 'down' | 'neutral' }) {
   return (
-    <span className={`flex h-5 w-5 items-center justify-center rounded-full ${
-      direction === 'up' ? 'bg-up/10 text-up' : direction === 'down' ? 'bg-down/10 text-down' : 'bg-secondary text-muted-foreground'
+    <span className={`text-xs ${
+      direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
     }`}>
-      {direction === 'up' ? <TrendingUp className="h-3 w-3" /> : direction === 'down' ? <TrendingDown className="h-3 w-3" /> : <Minus className="h-3 w-3" />}
+      {direction === 'up' ? '▲' : direction === 'down' ? '▼' : '■'}
     </span>
   );
 }
