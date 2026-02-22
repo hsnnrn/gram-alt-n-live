@@ -1,4 +1,5 @@
 import { TrendingUp, TrendingDown, Minus, Moon, Sun, RefreshCw } from 'lucide-react';
+import Logo from '@/components/Logo';
 import type { GoldPrice } from '@/hooks/useGoldPrices';
 import { formatPrice, formatTime } from '@/hooks/useGoldPrices';
 
@@ -16,9 +17,7 @@ export default function StickyHeader({ gramPrice, lastUpdate, isDark, onToggleTh
       <div className="container flex items-center justify-between py-2 md:py-3">
         {/* Brand */}
         <div className="flex items-center gap-2 md:gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary md:h-9 md:w-9">
-            <span className="text-sm font-bold text-primary-foreground md:text-base">₺</span>
-          </div>
+          <Logo className="h-8 w-8 md:h-9 md:w-9" />
           <div className="hidden sm:block">
             <h2 className="text-sm font-bold text-foreground md:text-base">Gram Altın Kaç Para</h2>
             <p className="text-[10px] text-muted-foreground md:text-xs">gramaltinkacpara.com</p>

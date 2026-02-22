@@ -1,6 +1,7 @@
 import { formatPrice, formatTime } from '@/hooks/useGoldPrices';
 import type { GoldPrice } from '@/hooks/useGoldPrices';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 interface HeroSectionProps {
   gramPrice?: GoldPrice;
@@ -49,19 +50,13 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
           {/* Sell Price */}
           <div className="min-w-0">
             <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Satış Fiyatı</p>
-            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${
-              sellDir === 'up' ? 'bg-up-bg' : sellDir === 'down' ? 'bg-down-bg' : ''
-            }`}>
-              <span className={`text-sm sm:text-base ${
-                sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-muted-foreground'
-              }`} aria-hidden="true">
-                {sellDir === 'up' ? '▲' : sellDir === 'down' ? '▼' : '■'}
-              </span>
+            <div className="flex items-baseline gap-2">
               <p className={`font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
                 sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
               }`}>
                 {formatPrice(sellPrice)}
               </p>
+              <ModernIndicator direction={sellDir} size="sm" />
             </div>
             <p className="mt-0.5 text-[11px] text-muted-foreground">₺ / gram</p>
           </div>
@@ -69,19 +64,13 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
           {/* Buy Price */}
           <div className="min-w-0">
             <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Alış Fiyatı</p>
-            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${
-              buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
-            }`}>
-              <span className={`text-sm sm:text-base ${
-                buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-muted-foreground'
-              }`} aria-hidden="true">
-                {buyDir === 'up' ? '▲' : buyDir === 'down' ? '▼' : '■'}
-              </span>
+            <div className="flex items-baseline gap-2">
               <p className={`font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
                 buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
               }`}>
                 {formatPrice(buyPrice)}
               </p>
+              <ModernIndicator direction={buyDir} size="sm" />
             </div>
             <p className="mt-0.5 text-[11px] text-muted-foreground">₺ / gram</p>
           </div>
@@ -89,17 +78,7 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
           {/* Change */}
           <div className="min-w-0">
             <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Değişim</p>
-            <span
-              className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold sm:px-3 sm:py-1.5 sm:text-sm ${
-                direction === 'up'
-                  ? 'bg-up-bg text-up'
-                  : direction === 'down'
-                  ? 'bg-down-bg text-down'
-                  : 'bg-secondary text-muted-foreground'
-              }`}
-            >
-              {direction === 'up' ? '▲' : direction === 'down' ? '▼' : '—'} %{Math.abs(changePercent).toFixed(2)}
-            </span>
+            <ModernIndicator direction={direction} percent={changePercent} size="lg" />
             {changeAmount !== undefined && changeAmount !== 0 && (
               <p className={`mt-1 font-tabular text-[10px] font-medium ${
                 direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
@@ -131,4 +110,38 @@ function getHeroDirection(current: number, closing: number): 'up' | 'down' | 'ne
   if (pct > 0.01) return 'up';
   if (pct < -0.01) return 'down';
   return 'neutral';
+}
+
+function ModernIndicator({ direction, percent, size = 'sm' }: { direction: string; percent?: number; size?: 'sm' | 'lg' }) {
+  const isLg = size === 'lg';
+  const iconSize = isLg ? 'h-3.5 w-3.5' : 'h-3 w-3';
+
+  if (direction === 'up') {
+    return (
+      <span className={`inline-flex items-center gap-1 rounded-full bg-up/10 backdrop-blur-sm border border-up/20 text-up font-semibold ${
+        isLg ? 'px-3 py-1.5 text-sm' : 'px-2 py-0.5 text-xs'
+      }`}>
+        <TrendingUp className={iconSize} />
+        {percent !== undefined && `%${Math.abs(percent).toFixed(2)}`}
+      </span>
+    );
+  }
+  if (direction === 'down') {
+    return (
+      <span className={`inline-flex items-center gap-1 rounded-full bg-down/10 backdrop-blur-sm border border-down/20 text-down font-semibold ${
+        isLg ? 'px-3 py-1.5 text-sm' : 'px-2 py-0.5 text-xs'
+      }`}>
+        <TrendingDown className={iconSize} />
+        {percent !== undefined && `%${Math.abs(percent).toFixed(2)}`}
+      </span>
+    );
+  }
+  return (
+    <span className={`inline-flex items-center gap-1 rounded-full bg-secondary border border-border text-muted-foreground font-semibold ${
+      isLg ? 'px-3 py-1.5 text-sm' : 'px-2 py-0.5 text-xs'
+    }`}>
+      <Minus className={iconSize} />
+      {percent !== undefined && '%0.00'}
+    </span>
+  );
 }
