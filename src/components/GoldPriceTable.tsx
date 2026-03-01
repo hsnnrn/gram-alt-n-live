@@ -163,10 +163,10 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 
       {/* Alış */}
       <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
-        buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
+        dir === 'up' ? 'bg-up-bg' : dir === 'down' ? 'bg-down-bg' : ''
       }`}>
         <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
-          buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
+          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price.buyPrice)}
         </span>
