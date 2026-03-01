@@ -158,20 +158,65 @@
   }
 
   .animate-flash-green {
-    animation: flash-green 0.5s ease-out;
+    animation: flash-green 0.6s ease-out;
   }
 
   .animate-flash-red {
-    animation: flash-red 0.5s ease-out;
+    animation: flash-red 0.6s ease-out;
   }
 
   @keyframes flash-green {
-    0% { background-color: hsl(152 60% 40% / 0.2); }
-    100% { background-color: transparent; }
+    0% { background-color: hsl(152 60% 40% / 0.25); transform: scale(1.01); }
+    50% { background-color: hsl(152 60% 40% / 0.1); }
+    100% { background-color: transparent; transform: scale(1); }
   }
 
   @keyframes flash-red {
-    0% { background-color: hsl(0 72% 51% / 0.2); }
-    100% { background-color: transparent; }
+    0% { background-color: hsl(0 72% 51% / 0.25); transform: scale(1.01); }
+    50% { background-color: hsl(0 72% 51% / 0.1); }
+    100% { background-color: transparent; transform: scale(1); }
+  }
+
+  /* Price ticker transition */
+  .price-cell {
+    transition: background-color 0.4s ease, color 0.3s ease;
+  }
+
+  /* Diamond indicator pulse */
+  .indicator-diamond {
+    display: inline-block;
+    transition: color 0.3s ease;
+  }
+
+  .indicator-diamond.is-up {
+    animation: diamond-pulse-up 1.5s ease-in-out infinite;
+  }
+
+  .indicator-diamond.is-down {
+    animation: diamond-pulse-down 1.5s ease-in-out infinite;
+  }
+
+  @keyframes diamond-pulse-up {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes diamond-pulse-down {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  /* Smooth number transition */
+  .price-value {
+    transition: color 0.3s ease;
+  }
+
+  /* Metric card hover */
+  .metric-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .metric-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(var(--foreground) / 0.06);
   }
 }
