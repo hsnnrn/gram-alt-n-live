@@ -133,8 +133,8 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
     }
   }, [price.sellPrice]);
 
-  const buyDir = getCellDirection(price.buyPrice, price.closingPrice);
-  const sellDir = getCellDirection(price.sellPrice, price.closingPrice);
+  // Use single consistent direction for the entire row
+  const dir = price.direction;
 
   return (
     <tr
@@ -163,10 +163,10 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 
       {/* Alış */}
       <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
-        buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
+        dir === 'up' ? 'bg-up-bg' : dir === 'down' ? 'bg-down-bg' : ''
       }`}>
         <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
-          buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
+          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price.buyPrice)}
         </span>
@@ -174,10 +174,10 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 
       {/* Satış */}
       <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
-        sellDir === 'up' ? 'bg-up-bg' : sellDir === 'down' ? 'bg-down-bg' : ''
+        dir === 'up' ? 'bg-up-bg' : dir === 'down' ? 'bg-down-bg' : ''
       }`}>
         <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
-          sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
+          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price.sellPrice)}
         </span>
@@ -275,14 +275,7 @@ function CurrencyCard({ rate }: { rate: CurrencyRate }) {
   );
 }
 
-/* ─── Helpers ─── */
-function getCellDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
-  if (closing <= 0) return 'neutral';
-  const pct = ((current - closing) / closing) * 100;
-  if (pct > 0.01) return 'up';
-  if (pct < -0.01) return 'down';
-  return 'neutral';
-}
+/* (getCellDirection removed — using price.direction consistently) */
 
 /* ─── Skeleton ─── */
 function TableSkeleton() {
