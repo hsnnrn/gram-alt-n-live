@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react';
 import { TrendingUp, TrendingDown, Minus, RefreshCw } from 'lucide-react';
 import type { GoldPrice, CurrencyRate } from '@/hooks/useGoldPrices';
 import { formatPrice } from '@/hooks/useGoldPrices';
@@ -81,33 +82,25 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
       {/* Gold Prices Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full table-fixed" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
-            <colgroup>
-              <col className="w-[28%] sm:w-[22%]" />
-              <col className="w-[24%] sm:w-[18%]" />
-              <col className="w-[24%] sm:w-[18%]" />
-              <col className="hidden sm:table-column sm:w-[14%]" />
-              <col className="hidden sm:table-column sm:w-[14%]" />
-              <col className="w-[24%] sm:w-[14%]" />
-            </colgroup>
+          <table className="w-full" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
             <thead>
               <tr className="border-b border-border bg-secondary/50">
-                <th className="px-2 py-2 text-left text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
+                <th className="whitespace-nowrap px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs md:px-4 md:py-3">
                   Altın Türü
                 </th>
-                <th className="px-1.5 py-2 text-right text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
+                <th className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Alış
                 </th>
-                <th className="px-1.5 py-2 text-right text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
+                <th className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Satış
                 </th>
-                <th className="hidden px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
+                <th className="hidden whitespace-nowrap px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
                   En Düşük
                 </th>
-                <th className="hidden px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
+                <th className="hidden whitespace-nowrap px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
                   En Yüksek
                 </th>
-                <th className="px-1.5 py-2 text-right text-[10px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:py-2.5 sm:text-xs md:px-4 md:py-3">
+                <th className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Değişim
                 </th>
               </tr>
@@ -124,27 +117,43 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
   );
 }
 
+/* ─── Price Row ─── */
 function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
-  const buyDir = getDirection(price.buyPrice, price.closingPrice);
-  const sellDir = getDirection(price.sellPrice, price.closingPrice);
+  const rowRef = useRef<HTMLTableRowElement>(null);
+  const prevSellRef = useRef(price.sellPrice);
+
+  useEffect(() => {
+    if (prevSellRef.current !== price.sellPrice && rowRef.current) {
+      const el = rowRef.current;
+      const cls = price.sellPrice > prevSellRef.current ? 'animate-flash-green' : 'animate-flash-red';
+      el.classList.remove('animate-flash-green', 'animate-flash-red');
+      void el.offsetWidth;
+      el.classList.add(cls);
+      prevSellRef.current = price.sellPrice;
+    }
+  }, [price.sellPrice]);
+
+  const buyDir = getCellDirection(price.buyPrice, price.closingPrice);
+  const sellDir = getCellDirection(price.sellPrice, price.closingPrice);
 
   return (
     <tr
+      ref={rowRef}
       className={`border-b border-border transition-colors last:border-0 ${
         isHero ? 'bg-gold-light/50' : 'hover:bg-secondary/30'
       }`}
       role="row"
     >
-      {/* Altın Türü - with arrow indicator like reference site */}
-      <td className="px-2 py-2.5 sm:px-3 sm:py-3 md:px-4 md:py-3.5">
-        <div className="flex items-center gap-1 sm:gap-2">
-          <span className={`text-xs sm:text-sm ${
-            price.direction === 'up' ? 'text-up' : price.direction === 'down' ? 'text-down' : 'text-muted-foreground'
+      {/* Altın Türü */}
+      <td className="px-3 py-3 sm:py-3.5 md:px-4">
+        <div className="flex items-center gap-2">
+          <span className={`indicator-diamond text-sm sm:text-base ${
+            price.direction === 'up' ? 'is-up text-up' : price.direction === 'down' ? 'is-down text-down' : 'text-muted-foreground'
           }`} aria-hidden="true">
-            {price.direction === 'up' ? '▲' : price.direction === 'down' ? '▼' : '■'}
+            ◆
           </span>
           <div className="min-w-0">
-            <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm md:text-base' : 'text-[13px] text-foreground sm:text-sm'}`}>
+            <span className={`block truncate font-medium ${isHero ? 'text-sm font-bold text-foreground sm:text-base' : 'text-sm text-foreground'}`}>
               {price.name}
             </span>
             <span className="text-[10px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
@@ -152,22 +161,22 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
         </div>
       </td>
 
-      {/* Alış - colored background cell like reference site */}
-      <td className={`px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4 ${
+      {/* Alış */}
+      <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
         buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
       }`}>
-        <span className={`font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+        <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
           buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price.buyPrice)}
         </span>
       </td>
 
-      {/* Satış - colored background cell like reference site */}
-      <td className={`px-1 py-2.5 text-right sm:px-3 sm:py-3 md:px-4 ${
+      {/* Satış */}
+      <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
         sellDir === 'up' ? 'bg-up-bg' : sellDir === 'down' ? 'bg-down-bg' : ''
       }`}>
-        <span className={`font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'sm:text-base' : ''} ${
+        <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
           sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price.sellPrice)}
@@ -189,85 +198,76 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       </td>
 
       {/* Değişim */}
-      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3 md:px-4">
+      <td className="px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4">
         <DirectionBadge direction={price.direction} changePercent={price.changePercent} changeAmount={price.changeAmount} />
       </td>
     </tr>
   );
 }
 
-function MiniIndicator({ direction }: { direction: 'up' | 'down' | 'neutral' }) {
-  return (
-    <span className={`text-xs ${
-      direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
-    }`}>
-      {direction === 'up' ? '▲' : direction === 'down' ? '▼' : '■'}
-    </span>
-  );
-}
-
-function getDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
-  if (closing <= 0) return 'neutral';
-  const pct = ((current - closing) / closing) * 100;
-  if (pct > 0.01) return 'up';
-  if (pct < -0.01) return 'down';
-  return 'neutral';
-}
-
+/* ─── Direction Badge ─── */
 function DirectionBadge({ direction, changePercent, changeAmount }: { direction: string; changePercent: number; changeAmount?: number }) {
-  if (direction === 'up') {
-    return (
-      <div className="text-right">
-        <span className="inline-flex items-center gap-0.5 rounded-full bg-up-bg px-1.5 py-0.5 text-[10px] font-semibold text-up sm:gap-1 sm:px-2 sm:text-xs">
-          <TrendingUp className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-          %{Math.abs(changePercent).toFixed(2)}
-        </span>
-        {changeAmount !== undefined && (
-          <p className="mt-0.5 hidden font-tabular text-[10px] font-medium text-up sm:block">+{formatPrice(Math.abs(changeAmount))} ₺</p>
-        )}
-      </div>
-    );
-  }
-  if (direction === 'down') {
-    return (
-      <div className="text-right">
-        <span className="inline-flex items-center gap-0.5 rounded-full bg-down-bg px-1.5 py-0.5 text-[10px] font-semibold text-down sm:gap-1 sm:px-2 sm:text-xs">
-          <TrendingDown className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-          %{Math.abs(changePercent).toFixed(2)}
-        </span>
-        {changeAmount !== undefined && (
-          <p className="mt-0.5 hidden font-tabular text-[10px] font-medium text-down sm:block">-{formatPrice(Math.abs(changeAmount))} ₺</p>
-        )}
-      </div>
-    );
-  }
+  const colorClass = direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground';
+  const bgClass = direction === 'up' ? 'bg-up-bg' : direction === 'down' ? 'bg-down-bg' : 'bg-secondary';
+  const Icon = direction === 'up' ? TrendingUp : direction === 'down' ? TrendingDown : Minus;
+
   return (
-    <span className="inline-flex items-center gap-0.5 rounded-full bg-secondary px-1.5 py-0.5 text-[10px] font-semibold text-muted-foreground sm:gap-1 sm:px-2 sm:text-xs">
-      <Minus className="h-2.5 w-2.5 sm:h-3 sm:w-3" />
-      %0.00
-    </span>
+    <div className="text-right">
+      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold sm:text-xs ${bgClass} ${colorClass}`}>
+        <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
+        %{Math.abs(changePercent).toFixed(2)}
+      </span>
+      {changeAmount !== undefined && changeAmount !== 0 && (
+        <p className={`mt-0.5 hidden font-tabular text-[10px] font-semibold sm:block ${colorClass}`}>
+          {changeAmount > 0 ? '+' : ''}{formatPrice(Math.abs(changeAmount))} ₺
+        </p>
+      )}
+    </div>
   );
 }
 
+/* ─── Currency Card ─── */
 function CurrencyCard({ rate }: { rate: CurrencyRate }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const prevRef = useRef(rate.sellPrice);
+
+  useEffect(() => {
+    if (prevRef.current !== rate.sellPrice && cardRef.current) {
+      const el = cardRef.current;
+      const cls = rate.sellPrice > prevRef.current ? 'animate-flash-green' : 'animate-flash-red';
+      el.classList.remove('animate-flash-green', 'animate-flash-red');
+      void el.offsetWidth;
+      el.classList.add(cls);
+      prevRef.current = rate.sellPrice;
+    }
+  }, [rate.sellPrice]);
+
   return (
-    <div className="flex items-center justify-between rounded-xl border border-border bg-card p-3 shadow-sm md:p-4">
+    <div ref={cardRef} className="metric-card flex items-center justify-between rounded-xl border border-border bg-card p-3 shadow-sm md:p-4">
       <div className="flex min-w-0 items-center gap-2">
-        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-secondary text-sm font-bold text-secondary-foreground sm:h-9 sm:w-9">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-sm font-bold text-secondary-foreground sm:h-10 sm:w-10">
           {rate.symbol}
         </div>
         <div className="min-w-0">
-          <p className="truncate text-xs font-medium text-foreground sm:text-sm">{rate.name}</p>
+          <p className="flex items-center gap-1.5 truncate text-sm font-medium text-foreground">
+            <span className={`indicator-diamond text-xs ${
+              rate.direction === 'up' ? 'is-up text-up' : rate.direction === 'down' ? 'is-down text-down' : 'text-muted-foreground'
+            }`}>◆</span>
+            {rate.name}
+          </p>
           <p className="text-[10px] text-muted-foreground sm:text-xs">{rate.id.toUpperCase()}/TRY</p>
         </div>
       </div>
       <div className="shrink-0 text-right">
-        <div className="flex items-center justify-end gap-1.5">
+        <div className="flex items-center justify-end gap-2">
           <div>
-            <p className="font-tabular text-[10px] text-muted-foreground">Alış: {formatPrice(rate.buyPrice)}</p>
-            <p className="font-tabular text-sm font-semibold text-foreground">Satış: {formatPrice(rate.sellPrice)}</p>
+            <p className="font-tabular text-[11px] text-muted-foreground sm:text-xs">Alış: {formatPrice(rate.buyPrice)}</p>
+            <p className={`price-value font-tabular text-sm font-bold sm:text-base ${
+              rate.direction === 'up' ? 'text-up' : rate.direction === 'down' ? 'text-down' : 'text-foreground'
+            }`}>
+              {formatPrice(rate.sellPrice)}
+            </p>
           </div>
-          <MiniIndicator direction={rate.direction} />
         </div>
         <DirectionBadge direction={rate.direction} changePercent={rate.changePercent} />
       </div>
@@ -275,6 +275,16 @@ function CurrencyCard({ rate }: { rate: CurrencyRate }) {
   );
 }
 
+/* ─── Helpers ─── */
+function getCellDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
+  if (closing <= 0) return 'neutral';
+  const pct = ((current - closing) / closing) * 100;
+  if (pct > 0.01) return 'up';
+  if (pct < -0.01) return 'down';
+  return 'neutral';
+}
+
+/* ─── Skeleton ─── */
 function TableSkeleton() {
   return (
     <section>

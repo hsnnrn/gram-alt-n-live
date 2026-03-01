@@ -1,6 +1,8 @@
+import { useRef, useEffect } from 'react';
 import { formatPrice, formatTime } from '@/hooks/useGoldPrices';
 import type { GoldPrice } from '@/hooks/useGoldPrices';
 import { Skeleton } from '@/components/ui/skeleton';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 interface HeroSectionProps {
   gramPrice?: GoldPrice;
@@ -28,9 +30,6 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
 
   const { sellPrice, buyPrice, lowPrice, highPrice, direction, changePercent, changeAmount } = gramPrice;
 
-  const sellDir = getHeroDirection(sellPrice, gramPrice.closingPrice);
-  const buyDir = getHeroDirection(buyPrice, gramPrice.closingPrice);
-
   return (
     <section className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8" aria-labelledby="hero-heading">
       {/* Subtle gold accent */}
@@ -47,81 +46,128 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
 
         <div className="grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-4 md:gap-6">
           {/* Sell Price */}
-          <div className="min-w-0">
-            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Satış Fiyatı</p>
-            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${
-              sellDir === 'up' ? 'bg-up-bg' : sellDir === 'down' ? 'bg-down-bg' : ''
-            }`}>
-              <span className={`text-sm sm:text-base ${
-                sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-muted-foreground'
-              }`} aria-hidden="true">
-                {sellDir === 'up' ? '▲' : sellDir === 'down' ? '▼' : '■'}
-              </span>
-              <p className={`font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
-                sellDir === 'up' ? 'text-up' : sellDir === 'down' ? 'text-down' : 'text-foreground'
-              }`}>
-                {formatPrice(sellPrice)}
-              </p>
-            </div>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">₺ / gram</p>
-          </div>
+          <HeroPriceCard
+            label="Satış Fiyatı"
+            price={sellPrice}
+            closingPrice={gramPrice.closingPrice}
+            unit="₺ / gram"
+          />
 
           {/* Buy Price */}
-          <div className="min-w-0">
-            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Alış Fiyatı</p>
-            <div className={`flex items-center gap-1.5 rounded-lg px-2 py-1 ${
-              buyDir === 'up' ? 'bg-up-bg' : buyDir === 'down' ? 'bg-down-bg' : ''
-            }`}>
-              <span className={`text-sm sm:text-base ${
-                buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-muted-foreground'
-              }`} aria-hidden="true">
-                {buyDir === 'up' ? '▲' : buyDir === 'down' ? '▼' : '■'}
-              </span>
-              <p className={`font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
-                buyDir === 'up' ? 'text-up' : buyDir === 'down' ? 'text-down' : 'text-foreground'
-              }`}>
-                {formatPrice(buyPrice)}
-              </p>
-            </div>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">₺ / gram</p>
-          </div>
+          <HeroPriceCard
+            label="Alış Fiyatı"
+            price={buyPrice}
+            closingPrice={gramPrice.closingPrice}
+            unit="₺ / gram"
+          />
 
           {/* Change */}
-          <div className="min-w-0">
-            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Değişim</p>
-            <span
-              className={`inline-flex items-center gap-1 rounded-lg px-2 py-1 text-xs font-bold sm:px-3 sm:py-1.5 sm:text-sm ${
-                direction === 'up'
-                  ? 'bg-up-bg text-up'
-                  : direction === 'down'
-                  ? 'bg-down-bg text-down'
-                  : 'bg-secondary text-muted-foreground'
-              }`}
-            >
-              {direction === 'up' ? '▲' : direction === 'down' ? '▼' : '—'} %{Math.abs(changePercent).toFixed(2)}
-            </span>
-            {changeAmount !== undefined && changeAmount !== 0 && (
-              <p className={`mt-1 font-tabular text-[10px] font-medium ${
-                direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
+          <div className="metric-card min-w-0 rounded-xl border border-border bg-secondary/30 p-3 sm:p-4">
+            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground sm:text-xs">
+              Değişim
+            </p>
+            <div className="flex items-center gap-2">
+              <span className={`flex h-8 w-8 items-center justify-center rounded-lg sm:h-9 sm:w-9 ${
+                direction === 'up' ? 'bg-up-bg text-up' : direction === 'down' ? 'bg-down-bg text-down' : 'bg-secondary text-muted-foreground'
               }`}>
-                {changeAmount > 0 ? '+' : ''}{formatPrice(changeAmount)} ₺
-              </p>
-            )}
+                {direction === 'up' ? <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5" /> : direction === 'down' ? <TrendingDown className="h-4 w-4 sm:h-5 sm:w-5" /> : <Minus className="h-4 w-4 sm:h-5 sm:w-5" />}
+              </span>
+              <div>
+                <p className={`font-tabular text-lg font-extrabold sm:text-xl md:text-2xl ${
+                  direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-foreground'
+                }`}>
+                  %{Math.abs(changePercent).toFixed(2)}
+                </p>
+                {changeAmount !== undefined && changeAmount !== 0 && (
+                  <p className={`font-tabular text-[11px] font-semibold sm:text-xs ${
+                    direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-muted-foreground'
+                  }`}>
+                    {changeAmount > 0 ? '+' : ''}{formatPrice(changeAmount)} ₺
+                  </p>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Time */}
-          <div className="flex min-w-0 flex-col justify-start">
-            <p className="mb-1 text-[11px] text-muted-foreground sm:text-xs">Son Güncelleme</p>
-            <p className="font-tabular text-sm font-semibold text-foreground sm:text-sm md:text-base">
+          {/* Time & Range */}
+          <div className="metric-card flex min-w-0 flex-col rounded-xl border border-border bg-secondary/30 p-3 sm:p-4">
+            <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground sm:text-xs">
+              Son Güncelleme
+            </p>
+            <p className="font-tabular text-base font-bold text-foreground sm:text-lg md:text-xl">
               {formatTime(lastUpdate)}
             </p>
-            <p className="mt-0.5 text-[11px] text-muted-foreground">
-              Düşük: {formatPrice(lowPrice)} / Yüksek: {formatPrice(highPrice)}
-            </p>
+            <div className="mt-auto flex items-center gap-2 pt-2">
+              <span className="text-[10px] text-muted-foreground sm:text-[11px]">
+                ↓ {formatPrice(lowPrice)}
+              </span>
+              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
+                <div
+                  className="h-full rounded-full bg-primary/60"
+                  style={{
+                    width: highPrice > lowPrice
+                      ? `${((sellPrice - lowPrice) / (highPrice - lowPrice)) * 100}%`
+                      : '50%'
+                  }}
+                />
+              </div>
+              <span className="text-[10px] text-muted-foreground sm:text-[11px]">
+                ↑ {formatPrice(highPrice)}
+              </span>
+            </div>
           </div>
         </div>
       </div>
     </section>
+  );
+}
+
+function HeroPriceCard({
+  label,
+  price,
+  closingPrice,
+  unit,
+}: {
+  label: string;
+  price: number;
+  closingPrice: number;
+  unit: string;
+}) {
+  const dir = getHeroDirection(price, closingPrice);
+  const prevPriceRef = useRef(price);
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (prevPriceRef.current !== price && cardRef.current) {
+      const el = cardRef.current;
+      const cls = price > prevPriceRef.current ? 'animate-flash-green' : 'animate-flash-red';
+      el.classList.remove('animate-flash-green', 'animate-flash-red');
+      // Force reflow
+      void el.offsetWidth;
+      el.classList.add(cls);
+      prevPriceRef.current = price;
+    }
+  }, [price]);
+
+  return (
+    <div ref={cardRef} className="metric-card min-w-0 rounded-xl border border-border bg-secondary/30 p-3 sm:p-4">
+      <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground sm:text-xs">
+        {label}
+      </p>
+      <div className="flex items-center gap-1.5">
+        <span className={`indicator-diamond text-base sm:text-lg ${
+          dir === 'up' ? 'is-up text-up' : dir === 'down' ? 'is-down text-down' : 'text-muted-foreground'
+        }`} aria-hidden="true">
+          ◆
+        </span>
+        <p className={`price-value font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
+          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
+        }`}>
+          {formatPrice(price)}
+        </p>
+      </div>
+      <p className="mt-0.5 text-[11px] text-muted-foreground">{unit}</p>
+    </div>
   );
 }
 
