@@ -125,15 +125,14 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
 function HeroPriceCard({
   label,
   price,
-  closingPrice,
+  direction,
   unit,
 }: {
   label: string;
   price: number;
-  closingPrice: number;
+  direction: 'up' | 'down' | 'neutral';
   unit: string;
 }) {
-  const dir = getHeroDirection(price, closingPrice);
   const prevPriceRef = useRef(price);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -142,7 +141,6 @@ function HeroPriceCard({
       const el = cardRef.current;
       const cls = price > prevPriceRef.current ? 'animate-flash-green' : 'animate-flash-red';
       el.classList.remove('animate-flash-green', 'animate-flash-red');
-      // Force reflow
       void el.offsetWidth;
       el.classList.add(cls);
       prevPriceRef.current = price;
@@ -156,12 +154,12 @@ function HeroPriceCard({
       </p>
       <div className="flex items-center gap-1.5">
         <span className={`indicator-diamond text-base sm:text-lg ${
-          dir === 'up' ? 'is-up text-up' : dir === 'down' ? 'is-down text-down' : 'text-muted-foreground'
+          direction === 'up' ? 'is-up text-up' : direction === 'down' ? 'is-down text-down' : 'text-muted-foreground'
         }`} aria-hidden="true">
           ◆
         </span>
         <p className={`price-value font-tabular text-xl font-extrabold sm:text-2xl md:text-3xl lg:text-4xl ${
-          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
+          direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price)}
         </p>
@@ -169,12 +167,4 @@ function HeroPriceCard({
       <p className="mt-0.5 text-[11px] text-muted-foreground">{unit}</p>
     </div>
   );
-}
-
-function getHeroDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
-  if (closing <= 0) return 'neutral';
-  const pct = ((current - closing) / closing) * 100;
-  if (pct > 0.01) return 'up';
-  if (pct < -0.01) return 'down';
-  return 'neutral';
 }

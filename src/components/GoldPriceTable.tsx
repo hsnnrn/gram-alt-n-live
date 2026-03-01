@@ -275,14 +275,7 @@ function CurrencyCard({ rate }: { rate: CurrencyRate }) {
   );
 }
 
-/* ─── Helpers ─── */
-function getCellDirection(current: number, closing: number): 'up' | 'down' | 'neutral' {
-  if (closing <= 0) return 'neutral';
-  const pct = ((current - closing) / closing) * 100;
-  if (pct > 0.01) return 'up';
-  if (pct < -0.01) return 'down';
-  return 'neutral';
-}
+/* (getCellDirection removed — using price.direction consistently) */
 
 /* ─── Skeleton ─── */
 function TableSkeleton() {
