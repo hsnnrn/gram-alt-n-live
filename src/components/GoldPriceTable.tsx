@@ -133,8 +133,8 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
     }
   }, [price.sellPrice]);
 
-  const buyDir = getCellDirection(price.buyPrice, price.closingPrice);
-  const sellDir = getCellDirection(price.sellPrice, price.closingPrice);
+  // Use single consistent direction for the entire row
+  const dir = price.direction;
 
   return (
     <tr
