@@ -49,7 +49,7 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
           <HeroPriceCard
             label="Satış Fiyatı"
             price={sellPrice}
-            closingPrice={gramPrice.closingPrice}
+            direction={direction}
             unit="₺ / gram"
           />
 
@@ -57,7 +57,7 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
           <HeroPriceCard
             label="Alış Fiyatı"
             price={buyPrice}
-            closingPrice={gramPrice.closingPrice}
+            direction={direction}
             unit="₺ / gram"
           />
 
