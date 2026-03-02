@@ -176,7 +176,7 @@ function MetricCell({
       <p className="mb-1 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
         {label}
       </p>
-      <p className={`font-tabular text-xl font-extrabold leading-tight md:text-2xl lg:text-3xl ${isPrimary ? dirColor : 'text-foreground'}`}>
+      <p className={`font-tabular text-xl font-extrabold leading-tight md:text-2xl lg:text-3xl ${dirColor}`}>
         {formatPrice(value)}
       </p>
       <p className="mt-0.5 text-[10px] text-muted-foreground">{unit}</p>
