@@ -171,7 +171,9 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
 
       {/* Alış */}
       <td className={`price-cell px-1.5 py-2.5 text-right sm:px-3 sm:py-3.5 md:px-4`}>
-        <span className={`price-value font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'md:text-base' : ''} text-foreground`}>
+        <span className={`price-value font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'md:text-base' : ''} ${
+          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
+        }`}>
           {formatPrice(price.buyPrice)}
         </span>
       </td>
