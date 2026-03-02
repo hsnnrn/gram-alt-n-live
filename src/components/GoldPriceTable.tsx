@@ -51,12 +51,12 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-3">
-        <div>
-          <h2 id="gold-prices-heading" className="text-lg font-bold text-foreground md:text-xl">
+      <div className="flex items-center justify-between mb-3 gap-2">
+        <div className="min-w-0">
+          <h2 id="gold-prices-heading" className="truncate text-base font-bold text-foreground sm:text-lg md:text-xl">
             Kapalıçarşı Altın Fiyatları
           </h2>
-          <p className="text-[11px] text-muted-foreground">Anlık güncellenen canlı kapalıçarşı verileri</p>
+          <p className="truncate text-[10px] text-muted-foreground sm:text-[11px]">Anlık canlı kapalıçarşı verileri</p>
         </div>
         <div className="flex items-center gap-2">
           {onRefresh && (
@@ -82,25 +82,33 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
       {/* Gold Prices Table */}
       <div className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
         <div className="overflow-x-auto">
-          <table className="w-full" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
+          <table className="w-full table-fixed" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
+            <colgroup>
+              <col className="w-[30%] sm:w-[22%]" />
+              <col className="w-[22%] sm:w-[18%]" />
+              <col className="w-[22%] sm:w-[18%]" />
+              <col className="hidden sm:table-column w-[14%]" />
+              <col className="hidden sm:table-column w-[14%]" />
+              <col className="w-[26%] sm:w-[14%]" />
+            </colgroup>
             <thead>
               <tr className="border-b border-border bg-secondary/50">
-                <th className="whitespace-nowrap px-3 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:text-xs md:px-4 md:py-3">
+                <th className="px-2.5 py-2.5 text-left text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Altın Türü
                 </th>
-                <th className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
+                <th className="px-1.5 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Alış
                 </th>
-                <th className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
+                <th className="px-1.5 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Satış
                 </th>
-                <th className="hidden whitespace-nowrap px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
+                <th className="hidden px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
                   En Düşük
                 </th>
-                <th className="hidden whitespace-nowrap px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
+                <th className="hidden px-3 py-2.5 text-right text-xs font-semibold uppercase tracking-wider text-muted-foreground sm:table-cell md:px-4 md:py-3">
                   En Yüksek
                 </th>
-                <th className="whitespace-nowrap px-2 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
+                <th className="px-1.5 py-2.5 text-right text-[11px] font-semibold uppercase tracking-wider text-muted-foreground sm:px-3 sm:text-xs md:px-4 md:py-3">
                   Değişim
                 </th>
               </tr>
@@ -145,38 +153,32 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       role="row"
     >
       {/* Altın Türü */}
-      <td className="px-3 py-3 sm:py-3.5 md:px-4">
-        <div className="flex items-center gap-2">
-          <span className={`indicator-diamond text-sm sm:text-base ${
-            price.direction === 'up' ? 'is-up text-up' : price.direction === 'down' ? 'is-down text-down' : 'text-muted-foreground'
+      <td className="px-2.5 py-2.5 sm:px-3 sm:py-3.5 md:px-4">
+        <div className="flex items-center gap-1.5">
+          <span className={`text-xs ${
+            price.direction === 'up' ? 'text-up' : price.direction === 'down' ? 'text-down' : 'text-muted-foreground'
           }`} aria-hidden="true">
-            ◆
+            {price.direction === 'up' ? '▲' : price.direction === 'down' ? '▼' : '●'}
           </span>
           <div className="min-w-0">
-            <span className={`block truncate font-medium ${isHero ? 'text-sm font-bold text-foreground sm:text-base' : 'text-sm text-foreground'}`}>
+            <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm' : 'text-[13px] text-foreground sm:text-sm'}`}>
               {price.name}
             </span>
-            <span className="text-[10px] text-muted-foreground sm:text-[11px]">{price.unit}</span>
+            <span className="hidden text-[10px] text-muted-foreground sm:block">{price.unit}</span>
           </div>
         </div>
       </td>
 
       {/* Alış */}
-      <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
-        dir === 'up' ? 'bg-up-bg' : dir === 'down' ? 'bg-down-bg' : ''
-      }`}>
-        <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
-          dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
-        }`}>
+      <td className={`price-cell px-1.5 py-2.5 text-right sm:px-3 sm:py-3.5 md:px-4`}>
+        <span className={`price-value font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'md:text-base' : ''} text-foreground`}>
           {formatPrice(price.buyPrice)}
         </span>
       </td>
 
       {/* Satış */}
-      <td className={`price-cell px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4 ${
-        dir === 'up' ? 'bg-up-bg' : dir === 'down' ? 'bg-down-bg' : ''
-      }`}>
-        <span className={`price-value font-tabular text-sm font-bold sm:text-base ${isHero ? 'md:text-lg' : ''} ${
+      <td className={`price-cell px-1.5 py-2.5 text-right sm:px-3 sm:py-3.5 md:px-4`}>
+        <span className={`price-value font-tabular text-[13px] font-bold sm:text-sm ${isHero ? 'md:text-base' : ''} ${
           dir === 'up' ? 'text-up' : dir === 'down' ? 'text-down' : 'text-foreground'
         }`}>
           {formatPrice(price.sellPrice)}
@@ -184,21 +186,21 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
       </td>
 
       {/* En Düşük */}
-      <td className="hidden px-3 py-3 text-right sm:table-cell md:px-4">
+      <td className="hidden px-3 py-2.5 text-right sm:table-cell md:px-4">
         <span className="font-tabular text-sm text-muted-foreground">
           {formatPrice(price.lowPrice)}
         </span>
       </td>
 
       {/* En Yüksek */}
-      <td className="hidden px-3 py-3 text-right sm:table-cell md:px-4">
+      <td className="hidden px-3 py-2.5 text-right sm:table-cell md:px-4">
         <span className="font-tabular text-sm text-muted-foreground">
           {formatPrice(price.highPrice)}
         </span>
       </td>
 
       {/* Değişim */}
-      <td className="px-2 py-3 text-right sm:px-3 sm:py-3.5 md:px-4">
+      <td className="px-1.5 py-2.5 text-right sm:px-3 sm:py-3.5 md:px-4">
         <DirectionBadge direction={price.direction} changePercent={price.changePercent} changeAmount={price.changeAmount} />
       </td>
     </tr>
