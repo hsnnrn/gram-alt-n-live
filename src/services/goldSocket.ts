@@ -49,7 +49,10 @@ export function connectGoldSocket(queryClient: QueryClient): () => void {
             const raw = typeof response === 'string' ? JSON.parse(response) : response;
             const items = parseKapalicarsiPayload(raw);
             if (items.length > 0) {
-              queryClient.setQueryData(['kapalicarsi-prices'], items);
+              // Defer to next microtask to avoid React internal queue corruption
+              Promise.resolve().then(() => {
+                queryClient.setQueryData(['kapalicarsi-prices'], items);
+              });
             }
           } catch {
             // ignore parse errors
