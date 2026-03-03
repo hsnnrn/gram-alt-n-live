@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useRef } from 'react';
 import {
   fetchKapalicarsiData,
   parseNumber,
@@ -137,6 +137,37 @@ function processApiData(data: ApiItem[]) {
   return { goldPrices, currencyRates };
 }
 
+interface DailyRangeStore {
+  dayKey: string;
+  ranges: Record<string, { low: number; high: number }>;
+}
+
+function applyConsistentDailyRanges(prices: GoldPrice[], store: DailyRangeStore): GoldPrice[] {
+  const todayKey = new Date().toISOString().slice(0, 10);
+
+  if (store.dayKey !== todayKey) {
+    store.dayKey = todayKey;
+    store.ranges = {};
+  }
+
+  return prices.map((price) => {
+    const incomingLow = Math.min(price.buyPrice, price.sellPrice);
+    const incomingHigh = Math.max(price.buyPrice, price.sellPrice);
+    const previous = store.ranges[price.id];
+
+    const lowPrice = previous ? Math.min(previous.low, incomingLow) : incomingLow;
+    const highPrice = previous ? Math.max(previous.high, incomingHigh) : incomingHigh;
+
+    store.ranges[price.id] = { low: lowPrice, high: highPrice };
+
+    return {
+      ...price,
+      lowPrice,
+      highPrice,
+    };
+  });
+}
+
 // Generate simulated history (for chart, until we have a history API)
 function generateHistory(basePrice: number, days: number): PriceHistory[] {
   const history: PriceHistory[] = [];
@@ -157,6 +188,11 @@ function generateHistory(basePrice: number, days: number): PriceHistory[] {
 
 export function useGoldPrices() {
   const queryClient = useQueryClient();
+  const dailyRangeStoreRef = useRef<DailyRangeStore>({
+    dayKey: '',
+    ranges: {},
+  });
+
   const {
     data,
     isLoading,
@@ -184,14 +220,19 @@ export function useGoldPrices() {
     return processApiData(data);
   }, [data]);
 
-  const gramPrice = processed.goldPrices.find(
+  const consistentPrices = useMemo(
+    () => applyConsistentDailyRanges(processed.goldPrices, dailyRangeStoreRef.current),
+    [processed.goldPrices]
+  );
+
+  const gramPrice = consistentPrices.find(
     p => p.id === 'altin'
   );
 
   const lastUpdate = dataUpdatedAt ? new Date(dataUpdatedAt) : new Date();
 
   return {
-    prices: processed.goldPrices,
+    prices: consistentPrices,
     currencies: processed.currencyRates,
     gramPrice,
     lastUpdate,

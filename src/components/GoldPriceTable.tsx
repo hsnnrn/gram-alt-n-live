@@ -51,14 +51,16 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
         </div>
       )}
 
-      <div className="flex items-center justify-between mb-3 gap-2">
+      <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <h2 id="gold-prices-heading" className="truncate text-base font-bold text-foreground sm:text-lg md:text-xl">
+          <h2 id="gold-prices-heading" className="text-base font-bold leading-tight text-foreground sm:text-lg md:text-xl">
             Kapalıçarşı Altın Fiyatları
           </h2>
-          <p className="truncate text-[10px] text-muted-foreground sm:text-[11px]">Anlık canlı kapalıçarşı verileri</p>
+          <p className="mt-0.5 text-[10px] leading-snug text-muted-foreground sm:text-[11px]">
+            Anlık güncellenen canlı kapalıçarşı verileri tablosu
+          </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full items-center justify-between gap-2 sm:w-auto sm:justify-end">
           {onRefresh && (
             <button
               onClick={() => onRefresh()}
@@ -69,7 +71,7 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
               <span className="hidden sm:inline">Yenile</span>
             </button>
           )}
-          <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <div className="flex items-center gap-1.5 whitespace-nowrap text-xs text-muted-foreground">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-up opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-up" />
@@ -84,9 +86,9 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
         <div className="overflow-x-auto">
           <table className="w-full table-fixed" role="table" aria-label="Kapalıçarşı altın fiyatları tablosu">
             <colgroup>
-              <col className="w-[30%] sm:w-[22%]" />
-              <col className="w-[22%] sm:w-[18%]" />
-              <col className="w-[22%] sm:w-[18%]" />
+              <col className="w-[34%] sm:w-[22%]" />
+              <col className="w-[20%] sm:w-[18%]" />
+              <col className="w-[20%] sm:w-[18%]" />
               <col className="hidden sm:table-column w-[14%]" />
               <col className="hidden sm:table-column w-[14%]" />
               <col className="w-[26%] sm:w-[14%]" />
@@ -161,7 +163,7 @@ function PriceRow({ price, isHero }: { price: GoldPrice; isHero: boolean }) {
             {price.direction === 'up' ? '▲' : price.direction === 'down' ? '▼' : '●'}
           </span>
           <div className="min-w-0">
-            <span className={`block truncate font-medium ${isHero ? 'text-[13px] font-bold text-foreground sm:text-sm' : 'text-[13px] text-foreground sm:text-sm'}`}>
+            <span className={`block whitespace-normal break-words text-[13px] leading-tight text-foreground sm:truncate sm:whitespace-nowrap sm:text-sm ${isHero ? 'font-bold' : 'font-medium'}`}>
               {price.name}
             </span>
             <span className="hidden text-[10px] text-muted-foreground sm:block">{price.unit}</span>
@@ -217,7 +219,7 @@ function DirectionBadge({ direction, changePercent, changeAmount }: { direction:
 
   return (
     <div className="text-right">
-      <span className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-bold sm:text-xs ${bgClass} ${colorClass}`}>
+      <span className={`inline-flex items-center gap-1 whitespace-nowrap rounded-full px-2 py-0.5 text-[11px] font-bold sm:text-xs ${bgClass} ${colorClass}`}>
         <Icon className="h-3 w-3 sm:h-3.5 sm:w-3.5" />
         %{Math.abs(changePercent).toFixed(2)}
       </span>

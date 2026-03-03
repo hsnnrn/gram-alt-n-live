@@ -113,7 +113,7 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
                 className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-down/60 via-primary to-up/60 transition-all duration-500"
                 style={{
                   width: highPrice > lowPrice
-                    ? `${Math.max(8, ((sellPrice - lowPrice) / (highPrice - lowPrice)) * 100)}%`
+                    ? `${Math.min(100, Math.max(8, ((sellPrice - lowPrice) / (highPrice - lowPrice)) * 100))}%`
                     : '50%'
                 }}
               />
@@ -167,6 +167,7 @@ function MetricCell({
   }, [value]);
 
   const dirColor = direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-foreground';
+  const showInlineUnit = unit === '₺';
 
   return (
     <div
@@ -178,8 +179,9 @@ function MetricCell({
       </p>
       <p className={`font-tabular text-xl font-extrabold leading-tight md:text-2xl lg:text-3xl ${dirColor}`}>
         {formatPrice(value)}
+        {showInlineUnit && <span className="ml-1 align-baseline text-[0.7em] font-bold">{unit}</span>}
       </p>
-      <p className="mt-0.5 text-[10px] text-muted-foreground">{unit}</p>
+      {!showInlineUnit && <p className="mt-0.5 text-[10px] text-muted-foreground">{unit}</p>}
     </div>
   );
 }
