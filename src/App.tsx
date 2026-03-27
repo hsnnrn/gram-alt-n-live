@@ -31,6 +31,8 @@ const AltinFiyatlariAdana = lazy(() => import("./pages/AltinFiyatlariAdana"));
 const CumhuriyetAltiniFiyati = lazy(() => import("./pages/CumhuriyetAltiniFiyati"));
 const YirmiIkiAyarBilezikFiyati = lazy(() => import("./pages/YirmiIkiAyarBilezikFiyati"));
 const OnsAltinFiyati = lazy(() => import("./pages/OnsAltinFiyati"));
+const GramAltinFiyati = lazy(() => import("./pages/GramAltinFiyati"));
+const GramAltinFiyatlariDizin = lazy(() => import("./pages/GramAltinFiyatlariDizin"));
 
 const queryClient = new QueryClient();
 
@@ -73,6 +75,9 @@ const App = () => (
             <Route path="/cumhuriyet-altini-fiyati" element={<CumhuriyetAltiniFiyati />} />
             <Route path="/22-ayar-bilezik-fiyati" element={<YirmiIkiAyarBilezikFiyati />} />
             <Route path="/ons-altin-fiyati" element={<OnsAltinFiyati />} />
+            <Route path="/gram-altin-fiyatlari-dizin" element={<GramAltinFiyatlariDizin />} />
+            {/* Dinamik gram altın sayfaları: yalnızca 1–100 gram */}
+            <Route path="/:gram-gram-altin-fiyati" element={<GramAltinFiyati />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Ana Sayfa -->
   <url><loc>https://gramaltinkacpara.com/</loc><changefreq>hourly</changefreq><priority>1.0</priority></url>
+
+  <!-- Altın Türleri -->
   <url><loc>https://gramaltinkacpara.com/gram-altin-nedir</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://gramaltinkacpara.com/ceyrek-altin-fiyati</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://gramaltinkacpara.com/yarim-altin-fiyati</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -8,6 +11,113 @@
   <url><loc>https://gramaltinkacpara.com/cumhuriyet-altini-fiyati</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/ons-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>
   <url><loc>https://gramaltinkacpara.com/22-ayar-bilezik-fiyati</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <!-- Gram altın fiyat dizini -->
+  <url><loc>https://gramaltinkacpara.com/gram-altin-fiyatlari-dizin</loc><changefreq>weekly</changefreq><priority>0.93</priority></url>
+
+  <!-- Gram Altın Fiyat Sayfaları (1–100 gram, tam liste) -->
+  <url><loc>https://gramaltinkacpara.com/1-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/2-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/3-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/4-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/5-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/6-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/7-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/8-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/9-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/10-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/11-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/12-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/13-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/14-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/15-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/16-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/17-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/18-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/19-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/20-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/21-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/22-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/23-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/24-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/25-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/26-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/27-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/28-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/29-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/30-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/31-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/32-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/33-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/34-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/35-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/36-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/37-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/38-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/39-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/40-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/41-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/42-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/43-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/44-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/45-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/46-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/47-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/48-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/49-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/50-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/51-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/52-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/53-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/54-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/55-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/56-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/57-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/58-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/59-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/60-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/61-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/62-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/63-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/64-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/65-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/66-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/67-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/68-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/69-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/70-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/71-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/72-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/73-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/74-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/75-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+  <url><loc>https://gramaltinkacpara.com/76-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/77-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/78-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/79-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/80-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/81-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/82-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/83-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/84-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/85-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/86-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/87-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/88-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/89-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/90-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/91-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/92-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/93-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/94-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/95-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/96-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/97-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/98-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/99-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.88</priority></url>
+  <url><loc>https://gramaltinkacpara.com/100-gram-altin-fiyati</loc><changefreq>hourly</changefreq><priority>0.92</priority></url>
+
+  <!-- Rehber ve İçerik Sayfaları -->
   <url><loc>https://gramaltinkacpara.com/altin-nasil-alinir</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-yatirim-rehberi</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-cesitleri</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
@@ -15,6 +125,8 @@
   <url><loc>https://gramaltinkacpara.com/kapalicarsı-altin-fiyatlari</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>
   <url><loc>https://gramaltinkacpara.com/harem-altin</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/gram-altin-hesaplama</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
+
+  <!-- Şehir Sayfaları -->
   <url><loc>https://gramaltinkacpara.com/altin-fiyatlari-istanbul</loc><changefreq>daily</changefreq><priority>0.9</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-fiyatlari-ankara</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-fiyatlari-izmir</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
@@ -24,5 +136,7 @@
   <url><loc>https://gramaltinkacpara.com/altin-fiyatlari-gaziantep</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-fiyatlari-adana</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-fiyatlari-batman</loc><changefreq>daily</changefreq><priority>0.7</priority></url>
+
+  <!-- Blog -->
   <url><loc>https://gramaltinkacpara.com/blog</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

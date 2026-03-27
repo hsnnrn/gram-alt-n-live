@@ -84,6 +84,7 @@ const INTERNAL_LINKS = [
   { href: '/cumhuriyet-altini-fiyati', label: 'Cumhuriyet Altını' },
   { href: '/ons-altin-fiyati', label: 'Ons Altın Fiyatı' },
   { href: '/22-ayar-bilezik-fiyati', label: '22 Ayar Bilezik' },
+  { href: '/gram-altin-fiyatlari-dizin', label: '1–100 Gram Altın (tüm linkler)' },
   { href: '/altin-nasil-alinir', label: 'Altın Nasıl Alınır?' },
   { href: '/altin-yatirim-rehberi', label: 'Altın Yatırım Rehberi' },
   { href: '/altin-cesitleri', label: 'Altın Çeşitleri' },
