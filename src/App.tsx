@@ -33,6 +33,7 @@ const YirmiIkiAyarBilezikFiyati = lazy(() => import("./pages/YirmiIkiAyarBilezik
 const OnsAltinFiyati = lazy(() => import("./pages/OnsAltinFiyati"));
 const GramAltinFiyati = lazy(() => import("./pages/GramAltinFiyati"));
 const GramAltinFiyatlariDizin = lazy(() => import("./pages/GramAltinFiyatlariDizin"));
+const SiteHaritasi = lazy(() => import("./pages/SiteHaritasi"));
 
 const queryClient = new QueryClient();
 
@@ -59,7 +60,9 @@ const App = () => (
             <Route path="/altin-yatirim-rehberi" element={<AltinYatirimRehberi />} />
             <Route path="/altin-cesitleri" element={<AltinCesitleri />} />
             <Route path="/doviz-kurlari" element={<DovizKurlari />} />
+            <Route path="/kapalicarsi-altin-fiyatlari" element={<KapalicarsiFiyatlari />} />
             <Route path="/kapalicarsı-altin-fiyatlari" element={<KapalicarsiFiyatlari />} />
+            <Route path="/site-haritasi" element={<SiteHaritasi />} />
             <Route path="/harem-altin" element={<HaremAltin />} />
             <Route path="/gram-altin-hesaplama" element={<GramAltinHesaplama />} />
             <Route path="/altin-fiyatlari-batman" element={<AltinFiyatlariBatman />} />

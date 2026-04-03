@@ -1,3 +1,7 @@
+import { SITE_BASE_URL } from '@/lib/siteConfig';
+
+export { SITE_BASE_URL };
+
 export interface GramContent {
   whatIs: string;
   investment: string;
@@ -17,8 +21,6 @@ function getCategory(gram: number): GramCategory {
 
 /** Sitede yayınlanan tüm gram altın URL’leri: 1–100 (dahil). */
 export const GRAM_PAGES_1_TO_100: number[] = Array.from({ length: 100 }, (_, i) => i + 1);
-
-export const SITE_BASE_URL = 'https://gramaltinkacpara.com';
 
 export function gramAltinPath(gram: number): string {
   return `/${gram}-gram-altin-fiyati`;

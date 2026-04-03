@@ -21,7 +21,7 @@ const BLOG_POSTS = [
     slug: 'kapalicarsi-farki',
     title: 'Kapalıçarşı Altın Fiyatları Neden Farklı?',
     summary: 'Kapalıçarşı fiyatlarının banka ve online fiyatlardan neden farklılık gösterdiğini öğrenin.',
-    href: '/kapalicarsı-altin-fiyatlari',
+    href: '/kapalicarsi-altin-fiyatlari',
   },
   {
     slug: 'altin-alis-rehberi',
@@ -51,6 +51,7 @@ export default function Blog() {
       description="Altın yatırımı, gram altın, çeyrek altın ve Kapalıçarşı hakkında güncel blog yazıları. Altın piyasası analizleri ve yatırım ipuçları."
       keywords="altın blog, altın yatırım, altın analiz, gram altın blog, kapalıçarşı blog, altın rehber"
       canonical="/blog"
+      openGraphType="article"
       breadcrumb="Blog"
     >
       <section className="space-y-6">

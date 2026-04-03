@@ -12,6 +12,8 @@ import {
   gramAltinPath,
   gramAltinAbsoluteUrl,
 } from '@/lib/gramAltinContent';
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd';
+import { SITE_BASE_URL, absoluteUrl } from '@/lib/siteConfig';
 
 const GENERAL_LINKS = [
   { href: '/', label: 'Canlı Altın Fiyatları' },
@@ -20,7 +22,7 @@ const GENERAL_LINKS = [
   { href: '/ceyrek-altin-fiyati', label: 'Çeyrek Altın Fiyatı' },
   { href: '/altin-yatirim-rehberi', label: 'Altın Yatırım Rehberi' },
   { href: '/gram-altin-hesaplama', label: 'Gram Altın Hesaplama' },
-  { href: '/kapalicarsı-altin-fiyatlari', label: 'Kapalıçarşı Fiyatları' },
+  { href: '/kapalicarsi-altin-fiyatlari', label: 'Kapalıçarşı Fiyatları' },
   { href: '/altin-cesitleri', label: 'Altın Çeşitleri' },
   { href: '/altin-nasil-alinir', label: 'Altın Nasıl Alınır?' },
 ];
@@ -50,12 +52,14 @@ export default function GramAltinFiyati() {
     '@type': 'Product',
     name: `${gram} Gram Altın`,
     description: `${gram} gram altın güncel Kapalıçarşı alış ve satış fiyatları.`,
+    brand: { '@type': 'Brand', name: 'Gram Altın Kaç Para' },
     offers: {
       '@type': 'Offer',
       price: sellTotal > 0 ? sellTotal.toFixed(2) : '0',
       priceCurrency: 'TRY',
       availability: 'https://schema.org/InStock',
-      seller: { '@type': 'Organization', name: 'Kapalıçarşı' },
+      url: gramAltinAbsoluteUrl(gram),
+      seller: { '@type': 'Organization', name: 'Gram Altın Kaç Para', url: SITE_BASE_URL },
     },
   };
 
@@ -85,11 +89,23 @@ export default function GramAltinFiyati() {
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`${gram} Gram Altın Fiyatı 2026 (Canlı)`} />
         <meta name="twitter:description" content={`${gram} gram altın fiyatı bugün ne kadar?`} />
+        <meta property="og:image" content={absoluteUrl('/placeholder.svg')} />
+        <meta property="og:image:alt" content={`${gram} gram altın güncel fiyat`} />
+        <meta name="twitter:image" content={absoluteUrl('/placeholder.svg')} />
+        {gram > 1 ? <link rel="prev" href={gramAltinAbsoluteUrl(gram - 1)} /> : null}
+        {gram < 100 ? <link rel="next" href={gramAltinAbsoluteUrl(gram + 1)} /> : null}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
         />
       </Helmet>
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Ana Sayfa', path: '/' },
+          { name: 'Gram Altın Fiyatları', path: '/gram-altin-fiyatlari-dizin' },
+          { name: `${gram} Gram Altın`, path: gramAltinPath(gram) },
+        ]}
+      />
 
       <StickyHeader
         gramPrice={gramPrice}

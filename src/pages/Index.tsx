@@ -8,6 +8,7 @@ import CurrencyConverter from '@/components/CurrencyConverter';
 import PriceChart from '@/components/PriceChart';
 import GoldPredictions from '@/components/GoldPredictions';
 import JsonLdSchema from '@/components/JsonLdSchema';
+import SEOHead from '@/components/SEOHead';
 import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
@@ -18,6 +19,12 @@ const Index = () => {
 
   return (
     <>
+      <SEOHead
+        title="Gram Altın Kaç Para? | Kapalıçarşı Gr Altın Fiyatları 2026"
+        description="Kapalıçarşı gram altın fiyatı bugün kaç TL? Gr altın, çeyrek altın ve kapalıçarşı altın fiyatlarını canlı takip edin. Reklamsız, anlık veri — yatırım öncesi hemen kontrol edin."
+        keywords="gr altın, gram altın, kapalıçarşı gram altın, kapalıçarşı altın fiyatları, gram altın kaç para, altın fiyatı bugün, çeyrek altın, altın fiyatları canlı, gr altın fiyatı"
+        canonical="/"
+      />
       {gramPrice && (
         <JsonLdSchema
           gramSellPrice={gramPrice.sellPrice}
@@ -141,7 +148,8 @@ const SEO_LINKS = [
   { href: '/altin-yatirim-rehberi', label: 'Altın Yatırım Rehberi' },
   { href: '/altin-cesitleri', label: 'Altın Çeşitleri' },
   { href: '/doviz-kurlari', label: 'Döviz Kurları' },
-  { href: '/kapalicarsı-altin-fiyatlari', label: 'Kapalıçarşı Altın Fiyatları' },
+  { href: '/kapalicarsi-altin-fiyatlari', label: 'Kapalıçarşı Altın Fiyatları' },
+  { href: '/site-haritasi', label: 'HTML Site Haritası' },
   { href: '/harem-altin', label: 'Harem Altın Fiyatları' },
   { href: '/gram-altin-hesaplama', label: 'Gram Altın Hesaplama' },
   { href: '/altin-fiyatlari-istanbul', label: 'İstanbul Altın Fiyatları' },

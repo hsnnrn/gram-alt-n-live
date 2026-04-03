@@ -1,0 +1,15 @@
+# Gram Altın Kaç Para
+
+> Kapalıçarşı ve Türkiye altın fiyatları için canlı veri ve rehber içerik.
+
+## Site
+- https://gramaltinkacpara.com/
+
+## Öne çıkan sayfalar
+- Ana sayfa: canlı gram altın, çeyrek ve diğer altın türleri tablosu
+- Gram altın dizini: https://gramaltinkacpara.com/gram-altin-fiyatlari-dizin (1–100 g URL’leri)
+- Kapalıçarşı açıklaması: https://gramaltinkacpara.com/kapalicarsi-altin-fiyatlari
+- Site haritası: https://gramaltinkacpara.com/site-haritasi
+
+## Not
+Fiyatlar bilgi amaçlıdır; yatırım tavsiyesi değildir. Google Merchant Center ürün feed’i bu site için geçerli değildir (satış kataloğu yoktur).

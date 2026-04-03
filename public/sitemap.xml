@@ -122,7 +122,7 @@
   <url><loc>https://gramaltinkacpara.com/altin-yatirim-rehberi</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/altin-cesitleri</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
   <url><loc>https://gramaltinkacpara.com/doviz-kurlari</loc><changefreq>hourly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://gramaltinkacpara.com/kapalicarsı-altin-fiyatlari</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://gramaltinkacpara.com/kapalicarsi-altin-fiyatlari</loc><changefreq>hourly</changefreq><priority>0.9</priority></url>
   <url><loc>https://gramaltinkacpara.com/harem-altin</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
   <url><loc>https://gramaltinkacpara.com/gram-altin-hesaplama</loc><changefreq>daily</changefreq><priority>0.8</priority></url>
 
@@ -139,4 +139,7 @@
 
   <!-- Blog -->
   <url><loc>https://gramaltinkacpara.com/blog</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+
+  <!-- HTML site haritası -->
+  <url><loc>https://gramaltinkacpara.com/site-haritasi</loc><changefreq>monthly</changefreq><priority>0.55</priority></url>
 </urlset>

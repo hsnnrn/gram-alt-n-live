@@ -1,14 +1,27 @@
+import { SITE_BASE_URL, absoluteUrl } from '@/lib/siteConfig';
+
 export default function JsonLdSchema({ gramSellPrice, gramBuyPrice }: { gramSellPrice: number; gramBuyPrice: number }) {
+  const organizationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE_BASE_URL}/#organization`,
+    name: 'Gram Altın Kaç Para',
+    url: SITE_BASE_URL,
+    logo: absoluteUrl('/favicon.svg'),
+    description:
+      'Kapalıçarşı gram altın, çeyrek altın ve Türkiye altın fiyatları için canlı veri ve rehber içerik sunan platform.',
+  };
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'FinancialProduct',
     name: 'Gram Altın - Kapalıçarşı Gr Altın Fiyatı',
     description: 'Kapalıçarşı gram altın fiyatı canlı takip - anlık gr altın alış ve satış fiyatları',
-    url: 'https://gramaltinkacpara.com',
+    url: SITE_BASE_URL,
     provider: {
       '@type': 'Organization',
       name: 'Gram Altın Kaç Para',
-      url: 'https://gramaltinkacpara.com',
+      url: SITE_BASE_URL,
     },
     offers: {
       '@type': 'Offer',
@@ -28,9 +41,10 @@ export default function JsonLdSchema({ gramSellPrice, gramBuyPrice }: { gramSell
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: 'Gram Altın Kaç Para',
-    url: 'https://gramaltinkacpara.com',
+    url: SITE_BASE_URL,
     description: 'Kapalıçarşı gram altın fiyatı, çeyrek altın ve canlı piyasa takibi. Gr altın anlık fiyatlar.',
-    inLanguage: 'tr',
+    inLanguage: 'tr-TR',
+    publisher: { '@id': `${SITE_BASE_URL}/#organization` },
   };
 
   const faqSchema = {
@@ -66,6 +80,10 @@ export default function JsonLdSchema({ gramSellPrice, gramBuyPrice }: { gramSell
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
+      />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}

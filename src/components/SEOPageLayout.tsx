@@ -3,7 +3,8 @@ import { useTheme } from '@/hooks/useTheme';
 import StickyHeader from '@/components/StickyHeader';
 import Footer from '@/components/Footer';
 import SEOHead from '@/components/SEOHead';
-import { Link } from 'react-router-dom';
+import BreadcrumbJsonLd from '@/components/BreadcrumbJsonLd';
+import { Link, useLocation } from 'react-router-dom';
 import { ChevronRight, Home } from 'lucide-react';
 
 interface SEOPageLayoutProps {
@@ -11,17 +12,41 @@ interface SEOPageLayoutProps {
   description: string;
   keywords?: string;
   canonical?: string;
+  /** Blog / makale listeleri için Open Graph `article` */
+  openGraphType?: string;
   children: React.ReactNode;
   breadcrumb: string;
 }
 
-export default function SEOPageLayout({ title, description, keywords, canonical, children, breadcrumb }: SEOPageLayoutProps) {
+export default function SEOPageLayout({
+  title,
+  description,
+  keywords,
+  canonical,
+  openGraphType,
+  children,
+  breadcrumb,
+}: SEOPageLayoutProps) {
+  const location = useLocation();
   const { prices, currencies, gramPrice, lastUpdate } = useGoldPrices();
   const { isDark, toggle } = useTheme();
+  const breadcrumbPath = canonical ?? location.pathname;
 
   return (
     <div className="min-h-screen bg-background">
-      <SEOHead title={title} description={description} keywords={keywords} canonical={canonical} />
+      <SEOHead
+        title={title}
+        description={description}
+        keywords={keywords}
+        canonical={canonical}
+        type={openGraphType}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: 'Ana Sayfa', path: '/' },
+          { name: breadcrumb, path: breadcrumbPath.startsWith('/') ? breadcrumbPath : `/${breadcrumbPath}` },
+        ]}
+      />
       <StickyHeader
         gramPrice={gramPrice}
         lastUpdate={lastUpdate}
@@ -89,7 +114,8 @@ const INTERNAL_LINKS = [
   { href: '/altin-yatirim-rehberi', label: 'Altın Yatırım Rehberi' },
   { href: '/altin-cesitleri', label: 'Altın Çeşitleri' },
   { href: '/doviz-kurlari', label: 'Döviz Kurları' },
-  { href: '/kapalicarsı-altin-fiyatlari', label: 'Kapalıçarşı Fiyatları' },
+  { href: '/kapalicarsi-altin-fiyatlari', label: 'Kapalıçarşı Fiyatları' },
+  { href: '/site-haritasi', label: 'HTML Site Haritası' },
   { href: '/harem-altin', label: 'Harem Altın' },
   { href: '/gram-altin-hesaplama', label: 'Gram Altın Hesaplama' },
   { href: '/altin-fiyatlari-istanbul', label: 'İstanbul Altın Fiyatları' },

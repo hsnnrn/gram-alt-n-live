@@ -1,10 +1,13 @@
 import SEOPageLayout from '@/components/SEOPageLayout';
+import { KAPALICARSI_CANONICAL_PATH } from '@/lib/siteConfig';
 
 export default function KapalicarsiFiyatlari() {
   return (
     <SEOPageLayout
       title="Kapalıçarşı Altın Fiyatları – Canlı Kapalıçarşı Gr Altın"
-      description="Kapalıçarşı altın fiyatları canlı takip. Kapalıçarşı gram altın, çeyrek altın, yarım altın ve tam altın fiyatları anlık olarak güncellenir."
+      description="Kapalıçarşı altın fiyatları canlı takip. Gram, çeyrek, yarım ve tam altın modelleri için anlık fiyatları ücretsiz inceleyin; satın alma veya yatırım öncesi güncel Kapalıçarşı verisini karşılaştırın."
+      keywords="kapalıçarşı altın fiyatları, kapalıçarşı gram altın, gr altın fiyatı bugün, kapalıçarşı altın satın al, canlı altın fiyatları"
+      canonical={KAPALICARSI_CANONICAL_PATH}
       breadcrumb="Kapalıçarşı Altın Fiyatları"
     >
       <section className="space-y-6">
