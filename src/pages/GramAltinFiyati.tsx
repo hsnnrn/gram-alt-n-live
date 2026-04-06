@@ -2,7 +2,7 @@ import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ChevronRight, Home } from 'lucide-react';
 import { useGoldPrices, formatPrice } from '@/hooks/useGoldPrices';
-import { resolveGramWithDefault } from '@/lib/gramAltinSlug';
+import { gramSlugFromParams, resolveGramWithDefault } from '@/lib/gramAltinSlug';
 import { formatTryLira } from '@/lib/formatTryLira';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useTheme } from '@/hooks/useTheme';
@@ -36,12 +36,12 @@ const GENERAL_LINKS = [
 ];
 
 export default function GramAltinFiyati() {
-  const { gram: gramParam } = useParams<{ gram: string }>();
+  const params = useParams();
   const { gramPrice, prices, currencies, lastUpdate, isLoading, isError, refetch, generateHistory } =
     useGoldPrices();
   const { isDark, toggle } = useTheme();
 
-  const gram = resolveGramWithDefault(gramParam);
+  const gram = resolveGramWithDefault(gramSlugFromParams(params));
   const content = generateGramContent(gram);
 
   const sellTotal = gramPrice ? gramPrice.sellPrice * gram : 0;
