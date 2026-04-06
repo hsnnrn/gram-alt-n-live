@@ -5,10 +5,12 @@ import { formatPrice } from '@/hooks/useGoldPrices';
 
 interface PriceConverterProps {
   gramPrice: GoldPrice | undefined;
+  /** Örn. gram sayfasında varsayılan gram miktarı */
+  initialGrams?: string;
 }
 
-export default function PriceConverter({ gramPrice }: PriceConverterProps) {
-  const [grams, setGrams] = useState<string>('1');
+export default function PriceConverter({ gramPrice, initialGrams = '1' }: PriceConverterProps) {
+  const [grams, setGrams] = useState<string>(initialGrams);
   const [mode, setMode] = useState<'goldToTl' | 'tlToGold'>('goldToTl');
   const [amount, setAmount] = useState<string>('');
 

@@ -8,9 +8,18 @@ interface StickyHeaderProps {
   isDark: boolean;
   onToggleTheme: () => void;
   onRefresh?: () => void;
+  /** 1 = anasayfa (1 gr birim satış); N = N gram toplam satış (gram altın sayfaları) */
+  gramMultiplier?: number;
 }
 
-export default function StickyHeader({ gramPrice, lastUpdate, isDark, onToggleTheme, onRefresh }: StickyHeaderProps) {
+export default function StickyHeader({
+  gramPrice,
+  lastUpdate,
+  isDark,
+  onToggleTheme,
+  onRefresh,
+  gramMultiplier = 1,
+}: StickyHeaderProps) {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-card/95 backdrop-blur-md" role="banner">
       <div className="container flex items-center justify-between py-2 md:py-3">
@@ -25,20 +34,25 @@ export default function StickyHeader({ gramPrice, lastUpdate, isDark, onToggleTh
           </div>
         </div>
 
-        {/* Live Gram Price */}
+        {/* Live price: 1 gr birim veya N gram toplam satış */}
         {gramPrice && (
           <div className="flex items-center gap-3 md:gap-5">
             <div className="text-center">
               <p className="text-[10px] uppercase tracking-wider text-muted-foreground md:text-xs">
-                Gram Altın
+                {gramMultiplier === 1 ? 'Gram Altın' : `${gramMultiplier} Gram Altın`}
               </p>
               <div className="flex items-center gap-1.5">
                 <span className="font-tabular text-lg font-bold text-foreground md:text-xl">
-                  {formatPrice(gramPrice.sellPrice)}
+                  {formatPrice(gramPrice.sellPrice * gramMultiplier)}
                 </span>
                 <span className="text-xs text-muted-foreground">₺</span>
                 <PriceDirection direction={gramPrice.direction} changePercent={gramPrice.changePercent} />
               </div>
+              {gramMultiplier > 1 ? (
+                <p className="mt-0.5 hidden text-[9px] text-muted-foreground sm:block md:text-[10px]">
+                  Birim: {formatPrice(gramPrice.sellPrice)} ₺/g
+                </p>
+              ) : null}
             </div>
             <div className="hidden text-right text-[10px] text-muted-foreground md:block md:text-xs">
               <p>Son güncelleme</p>

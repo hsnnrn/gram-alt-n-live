@@ -1,17 +1,59 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useMemo } from 'react';
 import { formatPrice, formatTime } from '@/hooks/useGoldPrices';
 import type { GoldPrice } from '@/hooks/useGoldPrices';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TrendingUp, TrendingDown, Minus, Clock } from 'lucide-react';
 
+function scaleGramPrice(gp: GoldPrice, multiplier: number): GoldPrice {
+  if (multiplier === 1) return gp;
+  return {
+    ...gp,
+    buyPrice: gp.buyPrice * multiplier,
+    sellPrice: gp.sellPrice * multiplier,
+    lowPrice: gp.lowPrice * multiplier,
+    highPrice: gp.highPrice * multiplier,
+    changeAmount: gp.changeAmount * multiplier,
+  };
+}
+
 interface HeroSectionProps {
   gramPrice?: GoldPrice;
   lastUpdate: Date;
   isLoading?: boolean;
+  /** 1 = anasayfa (birim gram fiyatı); N = N gram için toplam tutarlar */
+  gramMultiplier?: number;
+  /** Ana başlık (varsayılan: "Canlı Gram Altın") */
+  heroTitle?: string;
+  /** Üst etiket (varsayılan: "Kapalıçarşı Anlık Piyasa") */
+  heroEyebrow?: string;
+  /** h1 id (sayfa başına benzersiz) */
+  headingId?: string;
+  /** Çarpan > 1 iken başlık altı kısa açıklama */
+  heroHint?: string;
 }
 
-export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSectionProps) {
-  if (isLoading || !gramPrice) {
+export default function HeroSection({
+  gramPrice,
+  lastUpdate,
+  isLoading,
+  gramMultiplier = 1,
+  heroTitle,
+  heroEyebrow,
+  headingId = 'hero-heading',
+  heroHint,
+}: HeroSectionProps) {
+  const displayPrice = useMemo(
+    () => (gramPrice ? scaleGramPrice(gramPrice, gramMultiplier) : undefined),
+    [gramPrice, gramMultiplier]
+  );
+
+  const title = heroTitle ?? 'Canlı Gram Altın';
+  const eyebrow = heroEyebrow ?? 'Kapalıçarşı Anlık Piyasa';
+  const hint =
+    heroHint ??
+    (gramMultiplier > 1 ? '24 ayar saf altın — toplam satış ve alış tutarı' : undefined);
+
+  if (isLoading || !gramPrice || !displayPrice) {
     return (
       <section className="relative overflow-hidden rounded-2xl border border-border bg-card p-5 shadow-sm md:p-8">
         <Skeleton className="mb-1 h-4 w-40" />
@@ -28,14 +70,14 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
     );
   }
 
-  const { sellPrice, buyPrice, lowPrice, highPrice, direction, changePercent, changeAmount } = gramPrice;
+  const { sellPrice, buyPrice, lowPrice, highPrice, direction, changePercent, changeAmount } = displayPrice;
 
   const dirColor = direction === 'up' ? 'text-up' : direction === 'down' ? 'text-down' : 'text-foreground';
   const dirBg = direction === 'up' ? 'bg-up/10' : direction === 'down' ? 'bg-down/10' : 'bg-muted';
   const DirIcon = direction === 'up' ? TrendingUp : direction === 'down' ? TrendingDown : Minus;
 
   return (
-    <section className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm" aria-labelledby="hero-heading">
+    <section className="relative overflow-hidden rounded-2xl border border-border bg-card shadow-sm" aria-labelledby={headingId}>
       {/* Background accents */}
       <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-primary/5 blur-3xl" aria-hidden="true" />
 
@@ -44,11 +86,14 @@ export default function HeroSection({ gramPrice, lastUpdate, isLoading }: HeroSe
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <p className="text-xs font-medium uppercase tracking-widest text-primary md:text-sm">
-              Kapalıçarşı Anlık Piyasa
+              {eyebrow}
             </p>
-            <h1 id="hero-heading" className="text-lg font-extrabold text-foreground md:text-2xl lg:text-3xl">
-              Canlı Gram Altın
+            <h1 id={headingId} className="text-lg font-extrabold text-foreground md:text-2xl lg:text-3xl">
+              {title}
             </h1>
+            {hint ? (
+              <p className="mt-1 text-xs text-muted-foreground md:text-sm">{hint}</p>
+            ) : null}
           </div>
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
             <Clock className="h-3.5 w-3.5" />

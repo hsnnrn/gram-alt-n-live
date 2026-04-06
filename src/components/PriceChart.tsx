@@ -7,6 +7,9 @@ import { formatPrice } from '@/hooks/useGoldPrices';
 interface PriceChartProps {
   generateHistory: (basePrice: number, days: number) => PriceHistory[];
   basePrice: number;
+  title?: string;
+  /** aria-labelledby için benzersiz id (ör. gram sayfaları) */
+  sectionId?: string;
 }
 
 type Period = '1G' | '1H' | '1A';
@@ -17,7 +20,12 @@ const PERIODS: { key: Period; label: string; days: number }[] = [
   { key: '1A', label: '1 Ay', days: 30 },
 ];
 
-export default function PriceChart({ generateHistory, basePrice }: PriceChartProps) {
+export default function PriceChart({
+  generateHistory,
+  basePrice,
+  title = 'Gram Altın Grafiği',
+  sectionId = 'chart-heading',
+}: PriceChartProps) {
   const [period, setPeriod] = useState<Period>('1H');
 
   const selectedPeriod = PERIODS.find(p => p.key === period)!;
@@ -40,12 +48,12 @@ export default function PriceChart({ generateHistory, basePrice }: PriceChartPro
   const isUp = data.length > 1 && data[data.length - 1].price >= data[0].price;
 
   return (
-    <section aria-labelledby="chart-heading" className="rounded-xl border border-border bg-card p-4 shadow-sm md:p-5">
+    <section aria-labelledby={sectionId} className="rounded-xl border border-border bg-card p-4 shadow-sm md:p-5">
       <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <BarChart3 className="h-5 w-5 text-primary" aria-hidden="true" />
-          <h2 id="chart-heading" className="text-lg font-bold text-foreground">
-            Gram Altın Grafiği
+          <h2 id={sectionId} className="text-lg font-bold text-foreground">
+            {title}
           </h2>
         </div>
         <div className="flex rounded-lg bg-secondary p-1">
