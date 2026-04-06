@@ -28,6 +28,8 @@ interface HeroSectionProps {
   heroEyebrow?: string;
   /** h1 id (sayfa başına benzersiz) */
   headingId?: string;
+  /** Sayfada ayrı h1 varsa başlığı h2 yap (erişilebilirlik) */
+  titleTag?: 'h1' | 'h2';
   /** Çarpan > 1 iken başlık altı kısa açıklama */
   heroHint?: string;
 }
@@ -40,6 +42,7 @@ export default function HeroSection({
   heroTitle,
   heroEyebrow,
   headingId = 'hero-heading',
+  titleTag = 'h1',
   heroHint,
 }: HeroSectionProps) {
   const displayPrice = useMemo(
@@ -52,6 +55,8 @@ export default function HeroSection({
   const hint =
     heroHint ??
     (gramMultiplier > 1 ? '24 ayar saf altın — toplam satış ve alış tutarı' : undefined);
+
+  const TitleTag = titleTag;
 
   if (isLoading || !gramPrice || !displayPrice) {
     return (
@@ -88,9 +93,9 @@ export default function HeroSection({
             <p className="text-xs font-medium uppercase tracking-widest text-primary md:text-sm">
               {eyebrow}
             </p>
-            <h1 id={headingId} className="text-lg font-extrabold text-foreground md:text-2xl lg:text-3xl">
+            <TitleTag id={headingId} className="text-lg font-extrabold text-foreground md:text-2xl lg:text-3xl">
               {title}
-            </h1>
+            </TitleTag>
             {hint ? (
               <p className="mt-1 text-xs text-muted-foreground md:text-sm">{hint}</p>
             ) : null}

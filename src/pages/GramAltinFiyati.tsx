@@ -1,7 +1,10 @@
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ChevronRight, Home } from 'lucide-react';
 import { useGoldPrices, formatPrice } from '@/hooks/useGoldPrices';
+import { resolveGramWithDefault } from '@/lib/gramAltinSlug';
+import { formatTryLira } from '@/lib/formatTryLira';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useTheme } from '@/hooks/useTheme';
 import StickyHeader from '@/components/StickyHeader';
 import HeroSection from '@/components/HeroSection';
@@ -38,11 +41,8 @@ export default function GramAltinFiyati() {
     useGoldPrices();
   const { isDark, toggle } = useTheme();
 
-  const parsed = parseInt(gramParam ?? '', 10);
-  const isValidGram = Number.isInteger(parsed) && parsed >= 1 && parsed <= 100;
-  const gram = isValidGram ? parsed : 0;
-
-  const content = isValidGram ? generateGramContent(gram) : null;
+  const gram = resolveGramWithDefault(gramParam);
+  const content = generateGramContent(gram);
 
   const sellTotal = gramPrice ? gramPrice.sellPrice * gram : 0;
   const buyTotal = gramPrice ? gramPrice.buyPrice * gram : 0;
@@ -63,34 +63,31 @@ export default function GramAltinFiyati() {
     },
   };
 
-  if (!isValidGram || !content) {
-    return <Navigate to="/gram-altin-fiyatlari-dizin" replace />;
-  }
-
   const heroHeadingId = `hero-gram-${gram}`;
+  const headlineId = `gram-kac-tl-${gram}`;
 
   return (
     <div className="min-h-screen bg-background">
       <Helmet>
-        <title>{`${gram} Gram Altın Fiyatı 2026 (Canlı) – Kapalı Çarşı`}</title>
+        <title>{`${gram} Gram Altın Kaç TL - Güncel Altın Fiyatları`}</title>
         <meta
           name="description"
-          content={`${gram} gram altın fiyatı bugün ne kadar? Kapalı Çarşı canlı altın fiyatları ve anlık değişimler burada.`}
+          content={`${gram} gram altın bugün ne kadar? Anlık hesaplama ve güncel fiyatlar.`}
         />
         <meta
           name="keywords"
-          content={`${gram} gram altın fiyatı, ${gram} gram altın kaç para, ${gram} gram altın fiyatı bugün, kapalıçarşı ${gram} gram altın`}
+          content={`${gram} gram altın kaç tl, ${gram} gram altın fiyatı, ${gram} gr altın, kapalıçarşı ${gram} gram altın, gram altın güncel`}
         />
         <link rel="canonical" href={gramAltinAbsoluteUrl(gram)} />
-        <meta property="og:title" content={`${gram} Gram Altın Fiyatı 2026 (Canlı)`} />
-        <meta property="og:description" content={`${gram} gram altın fiyatı bugün ne kadar?`} />
+        <meta property="og:title" content={`${gram} Gram Altın Kaç TL - Güncel Altın Fiyatları`} />
+        <meta property="og:description" content={`${gram} gram altın bugün ne kadar? Anlık hesaplama ve güncel fiyatlar.`} />
         <meta property="og:url" content={gramAltinAbsoluteUrl(gram)} />
         <meta property="og:type" content="website" />
         <meta property="og:locale" content="tr_TR" />
         <meta property="og:site_name" content="Gram Altın Kaç Para" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${gram} Gram Altın Fiyatı 2026 (Canlı)`} />
-        <meta name="twitter:description" content={`${gram} gram altın fiyatı bugün ne kadar?`} />
+        <meta name="twitter:title" content={`${gram} Gram Altın Kaç TL - Güncel Altın Fiyatları`} />
+        <meta name="twitter:description" content={`${gram} gram altın bugün ne kadar? Anlık hesaplama ve güncel fiyatlar.`} />
         <meta property="og:image" content={absoluteUrl('/placeholder.svg')} />
         <meta property="og:image:alt" content={`${gram} gram altın güncel fiyat`} />
         <meta name="twitter:image" content={absoluteUrl('/placeholder.svg')} />
@@ -135,14 +132,44 @@ export default function GramAltinFiyati() {
           <span className="text-foreground font-medium">{gram} Gram Altın</span>
         </nav>
 
-        {/* Anasayfadaki ile aynı hero: N gram toplam satış / alış / değişim / gün aralığı */}
+        <section
+          className="mb-4 rounded-2xl border border-border bg-card px-4 py-6 shadow-sm md:mb-6 md:px-8 md:py-8"
+          aria-labelledby={headlineId}
+        >
+          <h1
+            id={headlineId}
+            className="text-center text-2xl font-extrabold tracking-tight text-foreground md:text-4xl"
+          >
+            {gram} Gram Altın Kaç TL?
+          </h1>
+          {isLoading ? (
+            <div className="mt-6 flex justify-center">
+              <Skeleton className="h-14 w-56 max-w-full md:h-16 md:w-72" />
+            </div>
+          ) : gramPrice ? (
+            <p
+              className="mt-4 text-center font-tabular text-3xl font-extrabold text-foreground md:mt-6 md:text-5xl"
+              aria-live="polite"
+            >
+              {formatTryLira(gramPrice.sellPrice * gram)}
+            </p>
+          ) : (
+            <p className="mt-4 text-center text-lg text-muted-foreground md:mt-6">Fiyat yüklenemedi.</p>
+          )}
+          <p className="mt-3 text-center text-xs text-muted-foreground md:text-sm">
+            Kapalıçarşı gram altın satış tutarı: {gram} × birim satış (tek veri kaynağı, anlık güncellenir).
+          </p>
+        </section>
+
+        {/* Anasayfadaki ile aynı düzen: N gram toplam satış / alış / değişim / gün aralığı (useGoldPrices cache) */}
         <HeroSection
           gramPrice={gramPrice}
           lastUpdate={lastUpdate}
           isLoading={isLoading}
           gramMultiplier={gram}
-          heroTitle={`${gram} Gram Altın`}
+          heroTitle={`${gram} Gram Altın — piyasa özeti`}
           headingId={heroHeadingId}
+          titleTag="h2"
         />
 
         <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3 md:mt-6 md:gap-6">

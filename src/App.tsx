@@ -32,6 +32,7 @@ const CumhuriyetAltiniFiyati = lazy(() => import("./pages/CumhuriyetAltiniFiyati
 const YirmiIkiAyarBilezikFiyati = lazy(() => import("./pages/YirmiIkiAyarBilezikFiyati"));
 const OnsAltinFiyati = lazy(() => import("./pages/OnsAltinFiyati"));
 const GramAltinFiyati = lazy(() => import("./pages/GramAltinFiyati"));
+const GramAltinLegacyRedirect = lazy(() => import("./pages/GramAltinLegacyRedirect"));
 const GramAltinFiyatlariDizin = lazy(() => import("./pages/GramAltinFiyatlariDizin"));
 const SiteHaritasi = lazy(() => import("./pages/SiteHaritasi"));
 
@@ -79,8 +80,9 @@ const App = () => (
             <Route path="/22-ayar-bilezik-fiyati" element={<YirmiIkiAyarBilezikFiyati />} />
             <Route path="/ons-altin-fiyati" element={<OnsAltinFiyati />} />
             <Route path="/gram-altin-fiyatlari-dizin" element={<GramAltinFiyatlariDizin />} />
-            {/* Dinamik gram altın sayfaları: yalnızca 1–100 gram */}
-            <Route path="/:gram-gram-altin-fiyati" element={<GramAltinFiyati />} />
+            {/* Dinamik gram altın: kanonik URL; tek fiyat kaynağı useGoldPrices (React Query cache) */}
+            <Route path="/:gram-gr-altin-kac-tl" element={<GramAltinFiyati />} />
+            <Route path="/:gram-gram-altin-fiyati" element={<GramAltinLegacyRedirect />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

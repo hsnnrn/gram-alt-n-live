@@ -32,7 +32,7 @@ export default function GramAltinFiyatlariDizin() {
               >
                 <span>{g} g</span>
                 <span className="mt-0.5 hidden font-mono text-[10px] text-muted-foreground sm:block">
-                  /{g}-gram-altin-fiyati
+                  /{g}-gr-altin-kac-tl
                 </span>
               </Link>
             ))}

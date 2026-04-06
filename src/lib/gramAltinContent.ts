@@ -22,8 +22,9 @@ function getCategory(gram: number): GramCategory {
 /** Sitede yayınlanan tüm gram altın URL’leri: 1–100 (dahil). */
 export const GRAM_PAGES_1_TO_100: number[] = Array.from({ length: 100 }, (_, i) => i + 1);
 
+/** Kanonik gram sayfası URL’si (SEO). */
 export function gramAltinPath(gram: number): string {
-  return `/${gram}-gram-altin-fiyati`;
+  return `/${gram}-gr-altin-kac-tl`;
 }
 
 export function gramAltinAbsoluteUrl(gram: number): string {
