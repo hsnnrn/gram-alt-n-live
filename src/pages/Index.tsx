@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { useGoldPrices } from '@/hooks/useGoldPrices';
 import { useTheme } from '@/hooks/useTheme';
 import StickyHeader from '@/components/StickyHeader';
@@ -6,12 +7,13 @@ import GoldPriceTable from '@/components/GoldPriceTable';
 import PriceConverter from '@/components/PriceConverter';
 import CurrencyConverter from '@/components/CurrencyConverter';
 import PriceChart from '@/components/PriceChart';
-import GoldPredictions from '@/components/GoldPredictions';
-import JsonLdSchema from '@/components/JsonLdSchema';
 import SEOHead from '@/components/SEOHead';
-import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
 import { ChevronRight } from 'lucide-react';
+
+const GoldPredictions = lazy(() => import('@/components/GoldPredictions'));
+const JsonLdSchema = lazy(() => import('@/components/JsonLdSchema'));
+const Footer = lazy(() => import('@/components/Footer'));
 
 const Index = () => {
   const { prices, currencies, gramPrice, lastUpdate, isLoading, isError, refetch, generateHistory } = useGoldPrices();
@@ -64,7 +66,9 @@ const Index = () => {
               <PriceConverter gramPrice={gramPrice} />
               <CurrencyConverter currencies={currencies} />
               {gramPrice && (
-                <GoldPredictions currentPrice={gramPrice.sellPrice} />
+                <Suspense fallback={<div className="min-h-[100px] rounded-xl border border-border bg-card/50" aria-hidden />}>
+                  <GoldPredictions currentPrice={gramPrice.sellPrice} />
+                </Suspense>
               )}
             </div>
           </div>
@@ -130,7 +134,9 @@ const Index = () => {
           </nav>
         </main>
 
-        <Footer />
+        <Suspense fallback={<footer className="min-h-16 border-t border-border bg-card" aria-hidden />}>
+          <Footer />
+        </Suspense>
       </div>
     </>
   );

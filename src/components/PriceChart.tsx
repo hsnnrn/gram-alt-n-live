@@ -1,8 +1,7 @@
-import { useState, useMemo, lazy, Suspense, useEffect, useRef } from 'react';
+import { useState, useMemo, useEffect, useRef, type ComponentType } from 'react';
 import { BarChart3 } from 'lucide-react';
 import type { PriceHistory } from '@/hooks/useGoldPrices';
-
-const PriceChartCanvas = lazy(() => import('./PriceChartCanvas'));
+import type { PriceChartCanvasProps } from './PriceChartCanvas';
 
 interface PriceChartProps {
   generateHistory: (basePrice: number, days: number) => PriceHistory[];
@@ -39,6 +38,7 @@ export default function PriceChart({
 }: PriceChartProps) {
   const [period, setPeriod] = useState<Period>('1H');
   const [chartVisible, setChartVisible] = useState(false);
+  const [Chart, setChart] = useState<ComponentType<PriceChartCanvasProps> | null>(null);
   const chartMountRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -51,11 +51,33 @@ export default function PriceChart({
           io.disconnect();
         }
       },
-      { rootMargin: '160px 0px', threshold: 0.01 }
+      { rootMargin: '120px 0px', threshold: 0.01 }
     );
     io.observe(el);
     return () => io.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (!chartVisible || Chart) return;
+    let cancelled = false;
+    const run = () => {
+      import('./PriceChartCanvas')
+        .then((m) => {
+          if (!cancelled) setChart(() => m.default);
+        })
+        .catch(() => {});
+    };
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    const id = w.requestIdleCallback?.(run, { timeout: 6000 });
+    if (id === undefined) run();
+    return () => {
+      cancelled = true;
+      if (id !== undefined) w.cancelIdleCallback?.(id);
+    };
+  }, [chartVisible, Chart]);
 
   const selectedPeriod = PERIODS.find(p => p.key === period)!;
 
@@ -74,6 +96,8 @@ export default function PriceChart({
   const minPrice = Math.min(...data.map(d => d.price));
   const maxPrice = Math.max(...data.map(d => d.price));
   const isUp = data.length > 1 && data[data.length - 1].price >= data[0].price;
+
+  const canvasProps: PriceChartCanvasProps = { data, minPrice, maxPrice, isUp };
 
   return (
     <section aria-labelledby={sectionId} className="rounded-xl border border-border bg-card p-4 shadow-sm md:p-5">
@@ -107,13 +131,7 @@ export default function PriceChart({
         role="img"
         aria-label={`Gram altın ${selectedPeriod.label.toLowerCase()} fiyat grafiği`}
       >
-        {chartVisible ? (
-          <Suspense fallback={<ChartFallback />}>
-            <PriceChartCanvas data={data} minPrice={minPrice} maxPrice={maxPrice} isUp={isUp} />
-          </Suspense>
-        ) : (
-          <ChartFallback />
-        )}
+        {Chart ? <Chart {...canvasProps} /> : <ChartFallback />}
       </div>
     </section>
   );

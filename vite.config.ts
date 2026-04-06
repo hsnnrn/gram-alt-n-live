@@ -2,10 +2,15 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 import { componentTagger } from "lovable-tagger";
+import { asyncGlobalCssPlugin } from "./vite-plugins/asyncCss";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   build: {
+    /** Grafik / socket gibi alt-fold chunk'ları ilk gezinmede önceden indirme */
+    modulePreload: {
+      resolveDependencies: (_filename, deps) => deps.filter((dep) => !/recharts|socket-io/.test(dep)),
+    },
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -39,7 +44,11 @@ export default defineConfig(({ mode }) => ({
       },
     },
   },
-  plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
+  plugins: [
+    react(),
+    mode === "production" && asyncGlobalCssPlugin(),
+    mode === "development" && componentTagger(),
+  ].filter(Boolean),
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
