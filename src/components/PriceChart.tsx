@@ -1,4 +1,4 @@
-import { useState, useMemo, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense, useEffect, useRef } from 'react';
 import { BarChart3 } from 'lucide-react';
 import type { PriceHistory } from '@/hooks/useGoldPrices';
 
@@ -38,6 +38,24 @@ export default function PriceChart({
   sectionId = 'chart-heading',
 }: PriceChartProps) {
   const [period, setPeriod] = useState<Period>('1H');
+  const [chartVisible, setChartVisible] = useState(false);
+  const chartMountRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = chartMountRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setChartVisible(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: '160px 0px', threshold: 0.01 }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   const selectedPeriod = PERIODS.find(p => p.key === period)!;
 
@@ -84,13 +102,18 @@ export default function PriceChart({
       </div>
 
       <div
+        ref={chartMountRef}
         className="h-[250px] md:h-[300px]"
         role="img"
         aria-label={`Gram altın ${selectedPeriod.label.toLowerCase()} fiyat grafiği`}
       >
-        <Suspense fallback={<ChartFallback />}>
-          <PriceChartCanvas data={data} minPrice={minPrice} maxPrice={maxPrice} isUp={isUp} />
-        </Suspense>
+        {chartVisible ? (
+          <Suspense fallback={<ChartFallback />}>
+            <PriceChartCanvas data={data} minPrice={minPrice} maxPrice={maxPrice} isUp={isUp} />
+          </Suspense>
+        ) : (
+          <ChartFallback />
+        )}
       </div>
     </section>
   );

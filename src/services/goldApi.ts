@@ -136,32 +136,21 @@ export function parseKapalicarsiPayload(payload: unknown): ApiItem[] {
 }
 
 export async function fetchKapalicarsiData(): Promise<ApiItem[]> {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 12000);
-  const signal = controller.signal;
+  const target = 'https://anlikaltinfiyatlari.com/js/fetch/kapalicarsi.php';
+  const proxiedUrls = CORS_PROXIES.map((p) => p(target));
 
-  try {
-    // 1) Doğrudan istek (dev'de Vite proxy, prod'da CORS varsa çalışır)
-    const raw = await fetchJsonFromUrl(KAPALICARSI_API_URL, signal);
-    const items = rawToItems(raw);
-    if (items.length > 0) return items;
-  } catch {
-    // CORS veya ağ hatası; proxy dene
-  } finally {
-    clearTimeout(timeout);
-  }
+  /** Prod’da tarayıcıdan doğrudan origin isteği CORS hatası üretir (konsol + Lighthouse). Önce proxy. */
+  const urls = import.meta.env.DEV ? [KAPALICARSI_API_URL, ...proxiedUrls] : proxiedUrls;
 
-  // 2) Production'da CORS proxy üzerinden dene
-  for (const proxy of CORS_PROXIES) {
-    const controller2 = new AbortController();
-    const t = setTimeout(() => controller2.abort(), 15000);
+  for (const url of urls) {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), 12_000);
     try {
-      const url = proxy('https://anlikaltinfiyatlari.com/js/fetch/kapalicarsi.php');
-      const raw = await fetchJsonFromUrl(url, controller2.signal);
+      const raw = await fetchJsonFromUrl(url, controller.signal);
       const items = rawToItems(raw);
       if (items.length > 0) return items;
     } catch {
-      // Sonraki proxy
+      // sıradaki URL
     } finally {
       clearTimeout(t);
     }

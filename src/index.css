@@ -87,11 +87,12 @@
     --input: 220 15% 18%;
     --ring: 43 80% 50%;
 
-    --up: 152 55% 45%;
-    --up-foreground: 152 55% 80%;
+    /* Koyu kart üzerinde WCAG kontrast (~4.5:1) için daha açık yeşil / kırmızı */
+    --up: 152 55% 56%;
+    --up-foreground: 152 55% 85%;
     --up-bg: 152 55% 12%;
-    --down: 0 65% 50%;
-    --down-foreground: 0 65% 80%;
+    --down: 0 78% 62%;
+    --down-foreground: 0 78% 85%;
     --down-bg: 0 65% 12%;
 
     --gold: 43 80% 50%;

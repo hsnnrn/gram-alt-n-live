@@ -209,10 +209,27 @@ export function useGoldPrices() {
     refetchOnWindowFocus: true,
   });
 
-  // anlikaltinfiyatlari.com ile aynı: WebSocket ile sürekli anlık güncelleme
+  // WebSocket: ilk boyamadan sonra bağlan (TBT); bfcache için pagehide’da kapanır
   useEffect(() => {
-    const cleanup = connectGoldSocket(queryClient);
-    return cleanup;
+    let socketCleanup: (() => void) | undefined;
+    let idleId: number | undefined;
+
+    const start = () => {
+      socketCleanup = connectGoldSocket(queryClient);
+    };
+
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      idleId = window.requestIdleCallback(start, { timeout: 2800 });
+    } else {
+      start();
+    }
+
+    return () => {
+      if (idleId != null && typeof window !== 'undefined' && 'cancelIdleCallback' in window) {
+        window.cancelIdleCallback(idleId);
+      }
+      socketCleanup?.();
+    };
   }, [queryClient]);
 
   const processed = useMemo(() => {

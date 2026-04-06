@@ -37,6 +37,9 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
 
   return (
     <section aria-labelledby="gold-prices-heading">
+      {currencies.length > 0 ? (
+        <h2 className="sr-only">Canlı altın ve döviz piyasası</h2>
+      ) : null}
       {/* Currency Rates */}
       {currencies.length > 0 && (
         <div className="mb-4">
@@ -53,9 +56,21 @@ export default function GoldPriceTable({ prices, currencies, isLoading, isError,
 
       <div className="mb-3 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
-          <h2 id="gold-prices-heading" className="text-base font-bold leading-tight text-foreground sm:text-lg md:text-xl">
-            Kapalıçarşı Altın Fiyatları
-          </h2>
+          {currencies.length > 0 ? (
+            <h3
+              id="gold-prices-heading"
+              className="text-base font-bold leading-tight text-foreground sm:text-lg md:text-xl"
+            >
+              Kapalıçarşı Altın Fiyatları
+            </h3>
+          ) : (
+            <h2
+              id="gold-prices-heading"
+              className="text-base font-bold leading-tight text-foreground sm:text-lg md:text-xl"
+            >
+              Kapalıçarşı Altın Fiyatları
+            </h2>
+          )}
           <p className="mt-0.5 text-[10px] leading-snug text-muted-foreground sm:text-[11px]">
             Anlık güncellenen canlı kapalıçarşı verileri tablosu
           </p>
